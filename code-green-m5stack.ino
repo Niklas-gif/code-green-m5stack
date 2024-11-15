@@ -1,6 +1,4 @@
 #include <M5Stack.h>
-#include <Wire.h>
-#include <Digital_Light_TSL2561.h>
 #include "M5UnitENV.h"
 #include "Sensor.h"
 
@@ -11,21 +9,21 @@ struct Plant {
   int idealLightCondition;
 };
 
-Sensor sensor;
+Sensory sensory;
 
 void setup() {
   Serial.begin(115200);
   M5.begin();
   M5.Power.begin();
-  sensor.init();
+  sensory.init();
 }
 
 void loop() {
   M5.update();
-  sensor.update();
+  sensory.update();
   //DEBUG
-  Serial.println(sensor.read().currentHumidity);
-  Serial.println(sensor.read().currentTemprature);
+  Serial.println(sensory.read().currentHumidity);
+  Serial.println(sensory.read().currentTemprature);
   delay(1000);
   //DEBUG
 }

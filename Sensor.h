@@ -6,14 +6,18 @@
   //TODO we store all sensor Values here and use it as as global context
   } SensorValue;
 
-  class Sensor {
+  class Sensory {
     private:
       SensorValues sensorValues;
+      bool pumpIsRunning;
       bool sht40Init();
       bool bmp280Init();
+      bool pumpInit();
       
     public:
-      SensorValues read();
       void init();
       void update();
+      void togglePump();
+      bool isPumpRunning();
+      SensorValues read();
   };

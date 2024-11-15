@@ -18,7 +18,8 @@
 SHT4X sht40; 
 BMP280 bmp;
 
-bool Sensor::sht40Init() {
+
+bool Sensory::sht40Init() {
   if (!sht40.begin(&Wire, SHT40_I2C_ADDR_44)) {
        Serial.println("Couldn't find SHT4x");
       while (1) delay(1);
@@ -30,7 +31,7 @@ bool Sensor::sht40Init() {
   return true;
 }
 
-bool Sensor::bmp280Init() {
+bool Sensory::bmp280Init() {
       if (!bmp.begin(&Wire, BMP280_I2C_ADDR)) {
         Serial.println("Couldn't find BMP280");
         while (1) delay(1);
@@ -45,7 +46,12 @@ bool Sensor::bmp280Init() {
     return true;
 }
 
-void Sensor::init() {
+bool Sensory::pumpInit() {
+
+}
+
+
+void Sensory::init() {
   /*if(sht40Init() && bmp280Init()) {
     Serial.println("Okay");
   } else {
@@ -55,17 +61,17 @@ void Sensor::init() {
   bmp280Init();
 }
 
-void Sensor::update() {
+void Sensory::update() {
   if(sht40.update()) {
-    Sensor::sensorValues.currentHumidity = sht40.humidity;
+    Sensory::sensorValues.currentHumidity = sht40.humidity;
   }
 
   if(bmp.update()) {
-    Sensor::sensorValues.currentTemprature = sht40.cTemp;
+    Sensory::sensorValues.currentTemprature = sht40.cTemp;
   }
 }
 
 //Sensor values are read only!
-SensorValues Sensor::read() {
-  return Sensor::sensorValues;
+SensorValues Sensory::read() {
+  return Sensory::sensorValues;
 }
