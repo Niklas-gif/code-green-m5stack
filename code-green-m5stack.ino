@@ -28,10 +28,10 @@ BMP280 bmp;*/
 
 
 void setup() {
-  //Serial.begin(115200);
+  Serial.begin(115200);
   M5.begin();
   M5.Power.begin();
-  sensor.update();
+  sensor.init();
 }
 
 void loop() {

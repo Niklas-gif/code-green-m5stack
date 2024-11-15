@@ -1,6 +1,4 @@
 
-//namespace GlobalSensor {
-
   typedef struct SensorValues {
     double idealTemprature;
     double idealHumidity;
@@ -9,9 +7,12 @@
   } SensorValue;
 
   class Sensor {
+    private:
+      bool sht40Init();
+      bool bmp280Init();
+      
     public:
       SensorValues sensorValues;
       void init();
       void update();
   };
-//}
