@@ -13,20 +13,6 @@ struct Plant {
 
 Sensor sensor;
 
-/*// PINS PUMP 
-#define INPUT_PIN 36 
-#define PUMP_PIN  26
-
- //PINS TEMP SENSOR 
-#define TEMP_SDA_PIN 21
-#define TEMP_SCL_PIN 22
-
-
- //heat humidity sensor
-SHT4X sht4; 
-BMP280 bmp;*/
-
-
 void setup() {
   Serial.begin(115200);
   M5.begin();
@@ -36,5 +22,10 @@ void setup() {
 
 void loop() {
   M5.update();
-  //Serial.print(sensor.sensorValues.idealHumidity);
+  sensor.update();
+  //DEBUG
+  Serial.println(sensor.read().currentHumidity);
+  Serial.println(sensor.read().currentTemprature);
+  delay(1000);
+  //DEBUG
 }

@@ -5,7 +5,6 @@
 #include <M5UnitENV.h> 
 #include "Sensor.h"
 
-//using namespace GlobalSensor;
 
 /* PINS PUMP */
 #define INPUT_PIN 36 
@@ -57,5 +56,16 @@ void Sensor::init() {
 }
 
 void Sensor::update() {
-  //Sensor::sensorValues.idealHumidity = 42;
+  if(sht40.update()) {
+    Sensor::sensorValues.currentHumidity = sht40.humidity;
+  }
+
+  if(bmp.update()) {
+    Sensor::sensorValues.currentTemprature = sht40.cTemp;
+  }
+}
+
+//Sensor values are read only!
+SensorValues Sensor::read() {
+  return Sensor::sensorValues;
 }
