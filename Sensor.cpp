@@ -46,6 +46,10 @@ bool Sensory::bmp280Init() {
     return true;
 }
 
+bool Sensory::lightSensorInit() {
+  TSL2561.init();
+}
+
 bool Sensory::pumpInit() {
 
 }
@@ -59,6 +63,7 @@ void Sensory::init() {
   }*/
   sht40Init();
   bmp280Init();
+  lightSensorInit();
 }
 
 void Sensory::update() {
@@ -69,6 +74,7 @@ void Sensory::update() {
   if(bmp.update()) {
     Sensory::sensorValues.currentTemprature = sht40.cTemp;
   }
+  TSL2561.readFSpecLuminosity();
 }
 
 //Sensor values are read only!

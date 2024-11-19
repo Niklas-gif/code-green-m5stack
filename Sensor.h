@@ -13,6 +13,7 @@
       bool sht40Init();
       bool bmp280Init();
       bool pumpInit();
+      bool lightSensorInit();
       
     public:
       void init();

@@ -24,6 +24,7 @@ void loop() {
   //DEBUG
   Serial.println(sensory.read().currentHumidity);
   Serial.println(sensory.read().currentTemprature);
+  Serial.println(sensory.read().currentLightCondition);
   delay(1000);
   //DEBUG
 }
