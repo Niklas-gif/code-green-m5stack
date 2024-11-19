@@ -22,7 +22,6 @@ BMP280 bmp;
 bool Sensory::sht40Init() {
   if (!sht40.begin(&Wire, SHT40_I2C_ADDR_44)) {
        Serial.println("Couldn't find SHT4x");
-      while (1) delay(1);
       return false;
   }
 
@@ -34,7 +33,6 @@ bool Sensory::sht40Init() {
 bool Sensory::bmp280Init() {
       if (!bmp.begin(&Wire, BMP280_I2C_ADDR)) {
         Serial.println("Couldn't find BMP280");
-        while (1) delay(1);
         return false;
     }
     /* Default settings from datasheet. */
@@ -48,10 +46,11 @@ bool Sensory::bmp280Init() {
 
 bool Sensory::lightSensorInit() {
   TSL2561.init();
+  return true;
 }
 
 bool Sensory::pumpInit() {
-
+  return true;
 }
 
 
@@ -64,6 +63,7 @@ void Sensory::init() {
   sht40Init();
   bmp280Init();
   lightSensorInit();
+  //pumpInit();
 }
 
 void Sensory::update() {
@@ -74,7 +74,7 @@ void Sensory::update() {
   if(bmp.update()) {
     Sensory::sensorValues.currentTemprature = sht40.cTemp;
   }
-  TSL2561.readFSpecLuminosity();
+  Sensory::sensorValues.currentLightCondition = TSL2561.readFSpecLuminosity();
 }
 
 //Sensor values are read only!
