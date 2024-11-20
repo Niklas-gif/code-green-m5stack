@@ -14,10 +14,17 @@
 #define TEMP_SDA_PIN 21
 #define TEMP_SCL_PIN 22
 
+/* PINS WATERLEVEL SENSOR*/
+#define WATERLEVEL_OUT_PIN 5
+
 /* heat humidity sensor*/
 SHT4X sht40; 
 BMP280 bmp;
 
+bool Sensory::waterLevelSensorInit() {
+  pinMode(WATERLEVEL_OUT_PIN, INPUT);
+  return true;
+}
 
 bool Sensory::sht40Init() {
   if (!sht40.begin(&Wire, SHT40_I2C_ADDR_44)) {
@@ -63,6 +70,7 @@ void Sensory::init() {
   } else {
     Serial.println("Failed to Init sensor");
   }*/
+  waterLevelSensorInit();
   sht40Init();
   bmp280Init();
   lightSensorInit();
@@ -80,6 +88,8 @@ void Sensory::update() {
   Sensory::sensorValues.currentLightCondition = TSL2561.readFSpecLuminosity();
 
   Sensory::sensorValues.rawADC = analogRead(INPUT_PIN);
+
+  Sensory::sensorValues.waterLevel = digitalRead(WATERLEVEL_OUT_PIN);
 }
 
 //Sensor values are read only!

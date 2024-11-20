@@ -25,6 +25,7 @@ void loop() {
   Serial.println(sensory.read().currentTemprature);
   Serial.println(sensory.read().currentLightCondition);
   Serial.println(sensory.read().rawADC);
+  Serial.println(sensory.read().waterLevel);
   Serial.println(sensory.isPumpRunning());
 
   if (M5.BtnB.wasPressed()) {
