@@ -50,6 +50,9 @@ bool Sensory::lightSensorInit() {
 }
 
 bool Sensory::pumpInit() {
+    pinMode(INPUT_PIN, INPUT);
+    pinMode(PUMP_PIN, OUTPUT);
+    pumpIsRunning = false;
   return true;
 }
 
@@ -63,7 +66,7 @@ void Sensory::init() {
   sht40Init();
   bmp280Init();
   lightSensorInit();
-  //pumpInit();
+  pumpInit();
 }
 
 void Sensory::update() {
@@ -75,9 +78,20 @@ void Sensory::update() {
     Sensory::sensorValues.currentTemprature = sht40.cTemp;
   }
   Sensory::sensorValues.currentLightCondition = TSL2561.readFSpecLuminosity();
+
+  Sensory::sensorValues.rawADC = analogRead(INPUT_PIN);
 }
 
 //Sensor values are read only!
 SensorValues Sensory::read() {
   return Sensory::sensorValues;
+}
+
+void Sensory::togglePump() {
+  pumpIsRunning = !pumpIsRunning;
+  digitalWrite(PUMP_PIN, pumpIsRunning);
+}
+
+bool Sensory::isPumpRunning() {
+  return pumpIsRunning;
 }

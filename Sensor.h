@@ -3,6 +3,7 @@
     double currentTemprature;
     double currentHumidity;
     int currentLightCondition;
+    int rawADC;
   //TODO we store all sensor Values here and use it as as global context
   } SensorValues;
 
