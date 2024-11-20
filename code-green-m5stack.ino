@@ -8,7 +8,6 @@ struct Plant {
   double idealHumidity;
   int idealLightCondition;
 };
-//kommentar
 Sensory sensory;
 
 void setup() {
