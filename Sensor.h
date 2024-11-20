@@ -4,7 +4,7 @@
     double currentHumidity;
     int currentLightCondition;
   //TODO we store all sensor Values here and use it as as global context
-  } SensorValue;
+  } SensorValues;
 
   class Sensory {
     private:
