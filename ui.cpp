@@ -89,6 +89,20 @@ void displayPlantScreen() {
     M5.Lcd.print("Light: ");
     M5.Lcd.print(plants[selectedPlantIndex].idealLightCondition);
     M5.Lcd.println(" lx");
+
+    //Bitmaps
+    if (plants[selectedPlantIndex].name == "Kaktus") {
+        M5.Lcd.drawBitmap(105, 55, 130, 158, kaktus);
+
+    } else if (plants[selectedPlantIndex].name == "Bonsai") {
+        M5.Lcd.drawBitmap(77, 60, 179, 152, bonsai);
+
+    } else if (plants[selectedPlantIndex].name == "Orchidee") {
+        M5.Lcd.drawBitmap(97, 60, 130, 160, orchid);
+
+    } else if (plants[selectedPlantIndex].name == "Agave") {
+        M5.Lcd.drawBitmap(97, 55, 156, 160, agave);
+    }
 }
 
 void displayValuesScreen() {
