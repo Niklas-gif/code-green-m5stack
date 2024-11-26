@@ -31,23 +31,22 @@ void initializeUI() {
 void drawNavigationBar() {
     M5.Lcd.startWrite();
 
-    // Rahmen um das gesamte Display
     M5.Lcd.drawRect(0, 0, 320, 240, GREEN);
 
-    // Navigation Bar unten
     M5.Lcd.fillRect(0, 220, 320, 20, GREEN);
     M5.Lcd.setTextColor(BLACK);
+
+    //TODO: Change font 
     
-    M5.Lcd.setCursor(10, 225);  
+    M5.Lcd.setCursor(50, 225);  
     M5.Lcd.print("Previous");
     
-    M5.Lcd.setCursor(150, 225);  
-    M5.Lcd.print("Select");
+    M5.Lcd.setCursor(125, 225);  
+    M5.Lcd.print("|  Select  |");
 
-    M5.Lcd.setCursor(300, 225);  
+    M5.Lcd.setCursor(235, 225);  
     M5.Lcd.print("Next"); 
 
-    // Navigation Bar oben
     for (int i = 0; i < 4; i++) {  
         int xStart = i * (320 / 4);  
         if (i == currentFrame) {
@@ -58,7 +57,6 @@ void drawNavigationBar() {
             M5.Lcd.setTextColor(GRAY);   
         }
         
-        // Rahmen um jeden Abschnitt
         M5.Lcd.drawRect(xStart, 0, 320 / 4, 30, GREEN);
 
         int textWidth = M5.Lcd.textWidth(frames[i]); 
@@ -84,48 +82,44 @@ void drawCurrentFrameContent(Sensory &sensor) {
     }
 }
 
+//FRAME: PFLANZEN
+
 void drawPlantContent() {
 
     int blockWidth = 160;
     int blockHeight = 95;
 
-    for (int i = 0; i < 2; i++) {  // Zeilen
-        for (int j = 0; j < 2; j++) {  // Spalten
+    for (int i = 0; i < 2; i++) { 
+        for (int j = 0; j < 2; j++) {  
             int xStart = j * blockWidth;
-            int yStart = 30 + i * blockHeight; // 30 für direkte Verbindung mit der Navigationsleiste
+            int yStart = 30 + i * blockHeight; 
 
-            // Block zeichnen
             M5.Lcd.drawRect(xStart, yStart, blockWidth, blockHeight, GREEN);
 
-            // Pflanze in den Block zeichnen
             int plantIndex = i * 2 + j;
-            if (plantIndex < 4) {  // Sicherstellen, dass es nur 4 Pflanzen gibt
+            if (plantIndex < 4) {  
                 String plantName = plants[plantIndex].getName();
                 
-                // Textfarbe abhängig davon, ob die Pflanze ausgewählt ist
                 if (selectedPlantIndex == plantIndex) {
-                    M5.Lcd.setTextColor(0xFFA500);  // Orange für die ausgewählte Pflanze
+                    M5.Lcd.setTextColor(0xFFA500);  
                 } else {
-                    M5.Lcd.setTextColor(WHITE);  // Standardfarbe für andere Pflanzen
+                    M5.Lcd.setTextColor(WHITE);  
                 }
                 
                 
                 M5.Lcd.setFont(&FreeMono9pt7b); 
 
-                // Vertikale Textdarstellung
-                int textX = xStart + 10;  // X-Position
-                int textY = yStart + 20;  // Y-Startposition
+                int textX = xStart + 10;  
+                int textY = yStart + 20;  
 
                 for (int k = 0; k < plantName.length(); k++) {
-                    M5.Lcd.setCursor(textX, textY + k * 12);  // Verschiebung für vertikalen Text
-                    M5.Lcd.print(plantName.charAt(k));  // Nur das aktuelle Zeichen drucken
+                    M5.Lcd.setCursor(textX, textY + k * 12);  
+                    M5.Lcd.print(plantName.charAt(k)); 
                 }
 
                 M5.Lcd.setFont();
 
-                // Bild zentriert im Block
                 if (selectedPlantIndex == plantIndex) {
-                    // Farbiges Bild, wenn ausgewählt
                     if (plantName == "Kaktus") {
                         M5.Lcd.drawBitmap(xStart + 50, yStart + 10, 82, 80, kaktus);
                     } else if (plantName == "Bonsai") {
@@ -136,21 +130,23 @@ void drawPlantContent() {
                         M5.Lcd.drawBitmap(xStart + 50, yStart + 15, 74, 70, agave);
                     }
                 } else {
-                    // Graues Bild, wenn nicht ausgewählt
                     if (plantName == "Kaktus") {
-                        M5.Lcd.drawBitmap(xStart + 50, yStart + 10, 82, 80, grey_kaktus); // Graues Bild
+                        M5.Lcd.drawBitmap(xStart + 50, yStart + 10, 82, 80, grey_kaktus); 
                     } else if (plantName == "Bonsai") {
-                        M5.Lcd.drawBitmap(xStart + 50, yStart + 15, 74, 70, grey_bonsai); // Graues Bild
+                        M5.Lcd.drawBitmap(xStart + 50, yStart + 15, 74, 70, grey_bonsai); 
                     } else if (plantName == "Orchid") {
-                        M5.Lcd.drawBitmap(xStart + 50, yStart + 15, 74, 70, grey_orchid); // Graues Bild
+                        M5.Lcd.drawBitmap(xStart + 50, yStart + 15, 74, 70, grey_orchid); 
                     } else if (plantName == "Agave") {
-                        M5.Lcd.drawBitmap(xStart + 50, yStart + 15, 74, 70, grey_agave); // Graues Bild
+                        M5.Lcd.drawBitmap(xStart + 50, yStart + 15, 74, 70, grey_agave); 
                     }
                 }
             }
         }
     }
 }
+
+
+//FRAME: PUMPE
 
 
 void drawPumpContent(Sensory &sensor) {
@@ -161,6 +157,9 @@ void drawPumpContent(Sensory &sensor) {
     M5.Lcd.setTextColor(GREEN);
     M5.Lcd.printf("Pumpe: %s", sensor.isPumpRunning() ? "ON" : "OFF");
 }
+
+//FRAME: VALUES
+//TODO: Values vervollständigen + idealVales einsetzen 
 
 void drawValuesContent(Sensory &sensor) {
     M5.Lcd.fillRect(1, 30, 318, 179, BLACK);
@@ -185,4 +184,51 @@ void drawValuesContent(Sensory &sensor) {
     M5.Lcd.setTextColor(WHITE);
     M5.Lcd.print("Licht: ");
     M5.Lcd.setTextColor(GREEN);
-    M5.Lcd.print(values.cu
+    M5.Lcd.print(values.currentLightCondition); 
+    
+    }
+
+
+    //TODO: FRAME -> Licht 
+
+
+
+    //
+
+    void changeFrame(Sensory &sensor) {
+    if (M5.BtnC.wasPressed()) {
+        currentFrame = (currentFrame + 1) % 4;  
+        drawNavigationBar();
+        drawCurrentFrameContent(sensor);
+    }
+
+    if (M5.BtnA.wasPressed()) {
+        currentFrame = (currentFrame - 1 + 4) % 4;  
+        drawNavigationBar();
+        drawCurrentFrameContent(sensor);
+    }
+
+    if (frames[currentFrame] == "Pflanze") {
+        if (M5.BtnA.wasPressed()) {
+            selectedPlantIndex = (selectedPlantIndex - 1 + 4) % 4;  
+            drawCurrentFrameContent(sensor);
+        }
+        if (M5.BtnB.wasPressed()) {
+            selectedPlantIndex = (selectedPlantIndex + 1) % 4;  
+            drawCurrentFrameContent(sensor);
+        }
+    }
+    else if (frames[currentFrame] == "Pumpe" && M5.BtnB.wasPressed()) {
+        sensor.togglePump();  
+        drawCurrentFrameContent(sensor);
+    }
+
+    else if (frames[currentFrame] == "Werte") {
+        unsigned long currentMillis = millis();
+        if (currentMillis - previousMillis >= interval) {
+            previousMillis = currentMillis;
+            sensor.update();  
+            drawCurrentFrameContent(sensor);
+        }
+    }
+}
