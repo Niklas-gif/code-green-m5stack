@@ -2,24 +2,14 @@
 #include "M5UnitENV.h"
 #include "Sensor.h"
 #include "ui.h"
-#include "input.h"
-
-struct Plant {
-    String name;
-    double idealTemperature;
-    double idealHumidity;
-    int idealLightCondition;
-};
+#include "plant.h"
 
 Plant plants[] = {
-    {"Cactus", 30.0, 10.0, 200},
-    {"Bonsai", 22.0, 50.0, 300},
-    {"Orchid", 25.0, 60.0, 250},
-    {"Agave", 30.0, 30.0, 180}
+    Plant("Kaktus", kaktus, 25.0, 30.0),
+    Plant("Bonsai", bonsai, 22.0, 60.0),
+    Plant("Orchidee", orchid, 21.0, 65.0),
+    Plant("Agave", agave, 28.0, 40.0)
 };
-
-const int totalPlants = sizeof(plants) / sizeof(plants[0]);
-int selectedPlantIndex = 0;
 
 Sensory sensory;
 
@@ -27,7 +17,6 @@ void setup() {
     Serial.begin(115200);
     M5.begin();
     M5.Power.begin();
-
     sensory.init();
     initializeUI();
 }
@@ -35,8 +24,8 @@ void setup() {
 void loop() {
     M5.update();
     sensory.update();
-    updateUI();
-    processUserInput();
+    changeFrame(sensory);
+    
 
     //DEBUG
     Serial.println(sensory.read().currentHumidity);

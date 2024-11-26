@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "picture.h"
 
 //const uint16_t epd_bitmap_kaktus2 [] PROGMEM 
 

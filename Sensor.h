@@ -1,4 +1,6 @@
+#pragma once
 
+  
   typedef struct SensorValues {
     double currentTemprature;
     double currentHumidity;

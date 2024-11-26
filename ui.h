@@ -12,14 +12,8 @@ void updateUI();
 
 void drawNavigationBar();
 
-void drawCurrentFrameContent();
+void drawCurrentFrameContent(Sensory &sensor);
 
-void displayLightScreen();
-
-void displayPumpScreen();
-
-void displayPlantScreen();
-
-void displayValuesScreen();
+void changeFrame(Sensory &sensor);
 
 #endif
