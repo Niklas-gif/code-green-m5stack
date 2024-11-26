@@ -41,8 +41,8 @@ void drawNavigationBar() {
     M5.Lcd.setCursor(50, 225);  
     M5.Lcd.print("Previous");
     
-    M5.Lcd.setCursor(125, 225);  
-    M5.Lcd.print("|  Select  |");
+    M5.Lcd.setCursor(115, 225);  
+    M5.Lcd.print("|    Select    |");
 
     M5.Lcd.setCursor(235, 225);  
     M5.Lcd.print("Next"); 
