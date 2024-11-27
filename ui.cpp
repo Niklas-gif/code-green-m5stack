@@ -186,25 +186,35 @@ void drawValuesContent(Sensory &sensor) {
     M5.Lcd.setTextColor(GREEN);
     M5.Lcd.print(values.currentLightCondition);
 
+    M5.Lcd.setCursor(10, 150);
+    M5.Lcd.setTextColor(WHITE);
+    M5.Lcd.print("Fuellstand: ");
+    M5.Lcd.setTextColor(GREEN);
+    if(values.waterLevel) {
+      M5.Lcd.print("Voll");
+    } else {
+      M5.Lcd.print("Leer"); 
+    }
+
     //Ideal Values 
     //Temperatur
     M5.Lcd.setCursor(150, 90);
     M5.Lcd.setTextColor(WHITE);
     M5.Lcd.setTextColor(GREEN);
-    M5.Lcd.print(...);
+    //M5.Lcd.print(...);
 
     //Feuchtigkeit
     M5.Lcd.setCursor(150, 60);
     M5.Lcd.setTextColor(WHITE);
     M5.Lcd.setTextColor(GREEN);
-    M5.Lcd.print(...);
+    //M5.Lcd.print(...);
 
 
     //Licht
     M5.Lcd.setCursor(150, 120);
     M5.Lcd.setTextColor(WHITE);
     M5.Lcd.setTextColor(GREEN);
-    M5.Lcd.print(...);
+    //M5.Lcd.print(...);
 
 
 

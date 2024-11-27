@@ -8,6 +8,7 @@ typedef struct PlantRaw {
   String name;
   double idealTemperature;
   double idealHumidity;
+  int idealLight;
   //TODO mehr werte vielleicht?
 
 } PlantRaw;
@@ -21,7 +22,7 @@ public:
     double idealHumidity;
     int idealLight;
 
-    Plant(String n, const uint16_t* bmp, double temp, double humidity, double light) {
+    Plant(String n, const uint16_t* bmp, double temp, double humidity, int light) {
         name = n;
         bitmap = bmp;
         idealTemperature = temp;
