@@ -28,12 +28,12 @@ void loop() {
     
 
     //DEBUG
-    Serial.println(sensory.read().currentHumidity);
+    /*Serial.println(sensory.read().currentHumidity);
     Serial.println(sensory.read().currentTemprature);
     Serial.println(sensory.read().currentLightCondition);
     Serial.println(sensory.read().rawADC);
     Serial.println(sensory.read().waterLevel);
-    Serial.println(sensory.isPumpRunning());
+    Serial.println(sensory.isPumpRunning());*/
     //DEBUG
 
     delay(100);
