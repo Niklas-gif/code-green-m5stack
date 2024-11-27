@@ -11,8 +11,6 @@
 
 extern Plant plants[];  
 
-Sensory sensor;
-
 String frames[] = {"Licht", "Pumpe", "Pflanze", "Werte"};
 int currentFrame = 0; 
 
@@ -21,7 +19,7 @@ int selectedPlantIndex = 0;
 unsigned long previousMillis = 0;
 const unsigned long UPDATE_INTERVAL = 2000; 
 
-void initializeUI() {
+void initializeUI(Sensory &sensor) {
     M5.Lcd.setRotation(1); 
     M5.Lcd.fillScreen(BLACK);
     drawNavigationBar();

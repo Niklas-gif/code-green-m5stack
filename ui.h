@@ -6,7 +6,7 @@
 
 enum Screen { LIGHT, PUMP, PLANT, VALUES };
 
-void initializeUI();
+void initializeUI(Sensory &sensor);
 void drawNavigationBar();
 void drawCurrentFrameContent(Sensory &sensor);
 void updateUI(Sensory &sensor);

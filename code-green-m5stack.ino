@@ -18,7 +18,7 @@ void setup() {
     M5.begin();
     M5.Power.begin();
     sensory.init();
-    initializeUI();
+    initializeUI(sensory);
 }
 
 void loop() {
