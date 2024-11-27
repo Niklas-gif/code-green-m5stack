@@ -19,8 +19,9 @@ public:
     const uint16_t* bitmap;  
     double idealTemperature;
     double idealHumidity;
+    int idealLight;
 
-    Plant(String n, const uint16_t* bmp, double temp, double humidity) {
+    Plant(String n, const uint16_t* bmp, double temp, double humidity, double light) {
         name = n;
         bitmap = bmp;
         idealTemperature = temp;
