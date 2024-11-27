@@ -16,6 +16,7 @@
 
 /* PINS WATERLEVEL SENSOR*/
 #define WATERLEVEL_OUT_PIN 5
+#define WATERLEVEL_LED_PIN 2 
 
 /* heat humidity sensor*/
 SHT4X sht40; 
@@ -23,6 +24,7 @@ BMP280 bmp;
 
 bool Sensory::waterLevelSensorInit() {
   pinMode(WATERLEVEL_OUT_PIN, INPUT);
+  pinMode(WATERLEVEL_LED_PIN, OUTPUT);
   return true;
 }
 
@@ -70,6 +72,8 @@ void Sensory::init() {
   } else {
     Serial.println("Failed to Init sensor");
   }*/
+  //TODO maybe we give the user the option to enable or disable the led?
+  waterLevelLED = true;
   waterLevelSensorInit();
   sht40Init();
   bmp280Init();
@@ -90,6 +94,11 @@ void Sensory::update() {
   Sensory::sensorValues.rawADC = analogRead(INPUT_PIN);
 
   Sensory::sensorValues.waterLevel = digitalRead(WATERLEVEL_OUT_PIN);
+  if(!sensorValues.waterLevel && waterLevelLED) {
+    digitalWrite(WATERLEVEL_LED_PIN,HIGH); 
+  } else {
+    digitalWrite(WATERLEVEL_LED_PIN,LOW); 
+  }
 }
 
 //Sensor values are read only!
@@ -104,4 +113,9 @@ void Sensory::togglePump() {
 
 bool Sensory::isPumpRunning() {
   return pumpIsRunning;
+}
+
+void Sensory::toggleWaterLevelLED() {
+  waterLevelLED = !waterLevelLED;
+  //digitalWrite(WATERLEVEL_LED_PIN,waterLevelLED);
 }

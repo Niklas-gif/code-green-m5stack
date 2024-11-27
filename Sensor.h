@@ -14,6 +14,7 @@
     private:
       SensorValues sensorValues;
       bool pumpIsRunning;
+      bool waterLevelLED;
       bool waterLevelSensorInit();
       bool sht40Init();
       bool bmp280Init();
@@ -24,6 +25,7 @@
       void init();
       void update();
       void togglePump();
+      void toggleWaterLevelLED();
       bool isPumpRunning();
       SensorValues read();
   };
