@@ -19,7 +19,7 @@ int currentFrame = 0;
 int selectedPlantIndex = 0;
 
 unsigned long previousMillis = 0;
-const unsigned long interval = 2000; 
+const unsigned long UPDATE_INTERVAL = 2000; 
 
 void initializeUI() {
     M5.Lcd.setRotation(1); 
@@ -225,7 +225,7 @@ void drawValuesContent(Sensory &sensor) {
 
     else if (frames[currentFrame] == "Werte") {
         unsigned long currentMillis = millis();
-        if (currentMillis - previousMillis >= interval) {
+        if (currentMillis - previousMillis >= UPDATE_INTERVAL) {
             previousMillis = currentMillis;
             sensor.update();  
             drawCurrentFrameContent(sensor);
