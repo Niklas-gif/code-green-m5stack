@@ -188,11 +188,7 @@ void drawValuesContent(Sensory &sensor) {
     M5.Lcd.setTextColor(WHITE);
     M5.Lcd.print("Fuellstand: ");
     M5.Lcd.setTextColor(GREEN);
-    if(values.waterLevel) {
-      M5.Lcd.print("Voll");
-    } else {
-      M5.Lcd.print("Leer"); 
-    }
+    M5.Lcd.print(values.waterLevel ? "Voll" : "Leer");
 
     //Ideal Values 
     //Temperatur
@@ -264,4 +260,8 @@ void drawValuesContent(Sensory &sensor) {
             drawCurrentFrameContent(sensor);
         }
     }
+}
+
+int getSelectedPlant() {
+  return selectedPlantIndex;
 }

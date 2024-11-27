@@ -13,10 +13,18 @@ Plant plants[] = {
 
 Sensory sensory;
 
+Plant *selectedPlant;
+/*Controller maybe?*/
+
+void compareValues(SensorValues sensorValues,Plant selectedPlant) {
+
+}
+
 void setup() {
     Serial.begin(115200);
     M5.begin();
     M5.Power.begin();
+    //selectedPlant = &plants[0];
     sensory.init();
     initializeUI(sensory);
 }
@@ -34,6 +42,8 @@ void loop() {
     Serial.println(sensory.read().rawADC);
     Serial.println(sensory.read().waterLevel);
     Serial.println(sensory.isPumpRunning());*/
+    //Serial.println(selectedPlant->getName());
+    //Serial.println(plants[getSelectedPlant()].getName());
     //DEBUG
 
     delay(100);
