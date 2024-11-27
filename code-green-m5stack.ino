@@ -24,7 +24,7 @@ void setup() {
 void loop() {
     M5.update();
     sensory.update();
-    changeFrame(sensory);
+    updateUI(sensory);
     
 
     //DEBUG
