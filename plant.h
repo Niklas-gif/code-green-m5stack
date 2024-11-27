@@ -2,18 +2,25 @@
 #define PLANT_H
 
 #include <M5Stack.h>
-#include "picture.h" 
+#include "picture.h"
+
+typedef struct PlantRaw {
+  String name;
+  double idealTemperature;
+  double idealHumidity;
+  //TODO mehr werte vielleicht?
+
+} PlantRaw;
 
 class Plant {
+private:
+      String name;
 public:
-    String name;
     const uint16_t* bitmap;  
-    float idealTemperature;
-    float idealHumidity;
-    float idealLight;
+    double idealTemperature;
+    double idealHumidity;
 
-
-    Plant(String n, const uint16_t* bmp, float temp, float humidity, float light) {
+    Plant(String n, const uint16_t* bmp, double temp, double humidity) {
         name = n;
         bitmap = bmp;
         idealTemperature = temp;
