@@ -195,7 +195,7 @@ void drawValuesContent(Sensory &sensor) {
 
     //
 
-    void changeFrame(Sensory &sensor) {
+    void updateUI(Sensory &sensor) {
     if (M5.BtnC.wasPressed()) {
         currentFrame = (currentFrame + 1) % 4;  
         drawNavigationBar();
