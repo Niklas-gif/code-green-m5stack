@@ -10,12 +10,15 @@ public:
     const uint16_t* bitmap;  
     float idealTemperature;
     float idealHumidity;
+    float idealLight;
 
-    Plant(String n, const uint16_t* bmp, float temp, float humidity) {
+
+    Plant(String n, const uint16_t* bmp, float temp, float humidity, float light) {
         name = n;
         bitmap = bmp;
         idealTemperature = temp;
         idealHumidity = humidity;
+        idealLight = light; 
     }
 
     String getName() const {
