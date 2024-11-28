@@ -12,13 +12,23 @@
 extern Plant plants[];
 extern Plant *selectedPlant; 
 
-String frames[] = {"Licht", "Pumpe", "Pflanze", "Werte"};
+//String frames[] = {"Licht", "Pumpe", "Pflanze", "Werte"};
+Screen frames[] = {LIGHT,PUMP,PLANT,VALUES};
 int currentFrame = 0; 
 
 int selectedPlantIndex = 0;
 
 unsigned long previousMillis = 0;
 const unsigned long UPDATE_INTERVAL = 2000; 
+
+String screenToString(Screen screen) {
+  switch(screen) {
+    case LIGHT: return "Licht";
+    case PUMP: return "Pumpe";
+    case PLANT: return "Pflanze";
+    case VALUES: return "Werte";
+  }
+}
 
 void initializeUI(Sensory &sensor) {
     M5.Lcd.setRotation(1); 
@@ -57,11 +67,11 @@ void drawNavigationBar() {
         }
         
         M5.Lcd.drawRect(xStart, 0, 320 / 4, 30, GREEN);
-
-        int textWidth = M5.Lcd.textWidth(frames[i]); 
+        String currentScreenToString = screenToString(frames[i]);
+        int textWidth = M5.Lcd.textWidth(currentScreenToString); 
         int textX = xStart + (320 / 4 - textWidth) / 2; 
         M5.Lcd.setCursor(textX, 10);
-        M5.Lcd.print(frames[i]);
+        M5.Lcd.print(currentScreenToString);
     }
     M5.Lcd.endWrite();
 }
@@ -70,14 +80,10 @@ void drawNavigationBar() {
 void drawCurrentFrameContent(Sensory &sensor) {
     M5.Lcd.fillRect(1, 41, 318, 179, BLACK);
 
-    if (frames[currentFrame] == "Pflanze") {
-        drawPlantContent();
-    } 
-    else if (frames[currentFrame] == "Pumpe") {
-        drawPumpContent(sensor);
-    } 
-    else if (frames[currentFrame] == "Werte") {
-        drawValuesContent(sensor);
+    switch(frames[currentFrame]) {
+      case PLANT:drawPlantContent();break;
+      case PUMP:drawPumpContent(sensor);break;
+      case VALUES:drawValuesContent(sensor);break;
     }
 }
 
@@ -146,8 +152,6 @@ void drawPlantContent() {
 
 
 //FRAME: PUMPE
-
-
 void drawPumpContent(Sensory &sensor) {
     M5.Lcd.setCursor(10, 60);
     M5.Lcd.setTextColor(WHITE);
@@ -158,8 +162,6 @@ void drawPumpContent(Sensory &sensor) {
 }
 
 //FRAME: VALUES
-//TODO: Values vervollständigen + idealVales einsetzen 
-
 void drawValuesContent(Sensory &sensor) {
     M5.Lcd.fillRect(1, 30, 318, 179, BLACK);
 
@@ -196,6 +198,8 @@ void drawValuesContent(Sensory &sensor) {
     //
 
     void updateUI(Sensory &sensor) {
+
+    //Navigate through the frames
     if (M5.BtnC.wasPressed()) {
         currentFrame = (currentFrame + 1) % 4;  
         drawNavigationBar();
@@ -207,23 +211,24 @@ void drawValuesContent(Sensory &sensor) {
         drawNavigationBar();
         drawCurrentFrameContent(sensor);
     }
+    //
 
-    if (frames[currentFrame] == "Pflanze") {
-        if (M5.BtnA.wasPressed()) { 
+    if (frames[currentFrame] == PLANT) {
+        /*if (M5.BtnA.wasPressed()) { 
             selectedPlantIndex = (selectedPlantIndex - 1 + 4) % 4; 
             drawCurrentFrameContent(sensor);
-        }
+        }*/
         if (M5.BtnB.wasPressed()) {
             selectedPlantIndex = (selectedPlantIndex + 1) % 4;  
             drawCurrentFrameContent(sensor);
         }
     }
-    else if (frames[currentFrame] == "Pumpe" && M5.BtnB.wasPressed()) {
+    else if (frames[currentFrame] == PUMP && M5.BtnB.wasPressed()) {
         sensor.togglePump();  
         drawCurrentFrameContent(sensor);
     }
 
-    else if (frames[currentFrame] == "Werte") {
+    else if (frames[currentFrame] == VALUES) {
         unsigned long currentMillis = millis();
         if (currentMillis - previousMillis >= UPDATE_INTERVAL) {
             previousMillis = currentMillis;

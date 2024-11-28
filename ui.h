@@ -5,7 +5,7 @@
 #include "plant.h"
 #include <M5Stack.h>
 
-enum Screen { LIGHT, PUMP, PLANT, VALUES };
+typedef enum Screen { LIGHT, PUMP, PLANT, VALUES } Screen;
 
 void initializeUI(Sensory &sensor);
 void selectPlant(Plant *plant);
@@ -16,6 +16,7 @@ void updateUI(Sensory &sensor);
 //This function are private !!!
 template <typename T>
 void drawValueEntry(int x,int y,String desc,T value,String type);
+String screenToString(Screen screen);
 void drawNavigationBar();
 void drawCurrentFrameContent(Sensory &sensor);
 void drawPlantContent();
