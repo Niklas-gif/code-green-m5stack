@@ -6,21 +6,20 @@
 #include <M5Stack.h>
 
 enum Screen { LIGHT, PUMP, PLANT, VALUES };
+
 void initializeUI(Sensory &sensor);
-void drawNavigationBar();
-void drawCurrentFrameContent(Sensory &sensor);
-void updateUI(Sensory &sensor);
-
-void drawPlantContent();
-void drawPumpContent(Sensory &sensor);
-void drawValuesContent(Sensory &sensor);
-
 void selectPlant(Plant *plant);
 int getSelectedPlantIndex();
+void updateUI(Sensory &sensor);
 
 
 //This function are private !!!
 template <typename T>
-void drawValueEntry(int x,int y,String desc,T value,String type); 
+void drawValueEntry(int x,int y,String desc,T value,String type);
+void drawNavigationBar();
+void drawCurrentFrameContent(Sensory &sensor);
+void drawPlantContent();
+void drawPumpContent(Sensory &sensor);
+void drawValuesContent(Sensory &sensor);
 
 #endif

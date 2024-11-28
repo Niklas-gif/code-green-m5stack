@@ -9,7 +9,8 @@
 #define GRAY 0x7BEF 
 #define GREEN 0x0ca6
 
-extern Plant plants[];  
+extern Plant plants[];
+extern Plant *selectedPlant; 
 
 String frames[] = {"Licht", "Pumpe", "Pflanze", "Werte"};
 int currentFrame = 0; 
@@ -163,7 +164,7 @@ void drawValuesContent(Sensory &sensor) {
     M5.Lcd.fillRect(1, 30, 318, 179, BLACK);
 
     SensorValues values = sensor.read();
-    
+    String plantName = selectedPlant->getName();
     drawValueEntry(10,60,"Temperatur: ",values.currentTemprature," C");
     drawValueEntry(10,90, "Feuchtigkeit: ",values.currentHumidity," %");
     drawValueEntry(10,120,"Licht: ",values.currentLightCondition,"");
@@ -171,23 +172,9 @@ void drawValuesContent(Sensory &sensor) {
 
     //Ideal Values 
     //Temperatur
-    M5.Lcd.setCursor(150, 90);
-    M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.setTextColor(GREEN);
-    //M5.Lcd.print(...);
-
-    //Feuchtigkeit
-    M5.Lcd.setCursor(150, 60);
-    M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.setTextColor(GREEN);
-    //M5.Lcd.print(...);
-
-
-    //Licht
-    M5.Lcd.setCursor(150, 120);
-    M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.setTextColor(GREEN);
-    //M5.Lcd.print(...);
+    drawValueEntry(150,60,plantName+"->",selectedPlant->idealTemperature," C");
+    drawValueEntry(150,90,plantName+"->",selectedPlant->idealHumidity," %");
+    drawValueEntry(150,120,plantName+"->",selectedPlant->idealLight,"");
     }
     
     //If there is no type argument just pass empty ""
