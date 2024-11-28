@@ -82,6 +82,10 @@ void Sensory::init() {
 }
 
 void Sensory::update() {
+  Sensory::sensorValues.currentLightCondition = TSL2561.readFSpecLuminosity();
+  Sensory::sensorValues.rawADC = analogRead(INPUT_PIN);
+  Sensory::sensorValues.waterLevel = digitalRead(WATERLEVEL_OUT_PIN);
+
   if(sht40.update()) {
     Sensory::sensorValues.currentHumidity = sht40.humidity;
   }
@@ -89,11 +93,7 @@ void Sensory::update() {
   if(bmp.update()) {
     Sensory::sensorValues.currentTemprature = sht40.cTemp;
   }
-  Sensory::sensorValues.currentLightCondition = TSL2561.readFSpecLuminosity();
 
-  Sensory::sensorValues.rawADC = analogRead(INPUT_PIN);
-
-  Sensory::sensorValues.waterLevel = digitalRead(WATERLEVEL_OUT_PIN);
   if(!sensorValues.waterLevel && waterLevelLED) {
     digitalWrite(WATERLEVEL_LED_PIN,HIGH); 
   } else {

@@ -38,9 +38,7 @@ void initializeUI(Sensory &sensor) {
 
 void drawNavigationBar() {
     M5.Lcd.startWrite();
-
     M5.Lcd.drawRect(0, 0, 320, 240, GREEN);
-
     M5.Lcd.fillRect(0, 220, 320, 20, GREEN);
     M5.Lcd.setTextColor(BLACK);
 

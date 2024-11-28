@@ -11,6 +11,8 @@ Plant plants[] = {
     Plant("Agave", agave, 28.0, 40.0, 30.00)
 };
 
+int plantCount = 4; //We calculate this at runtime later down the line
+
 Sensory sensory;
 
 Plant *selectedPlant;
