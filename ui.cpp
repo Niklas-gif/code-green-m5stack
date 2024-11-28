@@ -12,7 +12,6 @@
 extern Plant plants[];
 extern Plant *selectedPlant; 
 
-//String frames[] = {"Licht", "Pumpe", "Pflanze", "Werte"};
 Screen frames[] = {LIGHT,PUMP,PLANT,VALUES};
 int currentFrame = 0; 
 
@@ -214,10 +213,6 @@ void drawValuesContent(Sensory &sensor) {
     //
 
     if (frames[currentFrame] == PLANT) {
-        /*if (M5.BtnA.wasPressed()) { 
-            selectedPlantIndex = (selectedPlantIndex - 1 + 4) % 4; 
-            drawCurrentFrameContent(sensor);
-        }*/
         if (M5.BtnB.wasPressed()) {
             selectedPlantIndex = (selectedPlantIndex + 1) % 4;  
             drawCurrentFrameContent(sensor);
