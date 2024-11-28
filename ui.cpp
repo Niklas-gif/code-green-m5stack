@@ -164,31 +164,10 @@ void drawValuesContent(Sensory &sensor) {
 
     SensorValues values = sensor.read();
     
-    M5.Lcd.setCursor(10, 60);
-    M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.print("Temperatur: ");
-    M5.Lcd.setTextColor(GREEN);
-    M5.Lcd.print(values.currentTemprature);
-    M5.Lcd.print(" C");
-    
-    M5.Lcd.setCursor(10, 90);
-    M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.print("Feuchtigkeit: ");
-    M5.Lcd.setTextColor(GREEN);
-    M5.Lcd.print(values.currentHumidity);
-    M5.Lcd.print(" %");
-
-    M5.Lcd.setCursor(10, 120);
-    M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.print("Licht: ");
-    M5.Lcd.setTextColor(GREEN);
-    M5.Lcd.print(values.currentLightCondition);
-
-    M5.Lcd.setCursor(10, 150);
-    M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.print("Fuellstand: ");
-    M5.Lcd.setTextColor(GREEN);
-    M5.Lcd.print(values.waterLevel ? "Voll" : "Leer");
+    drawValueEntry(10,60,"Temperatur: ",values.currentTemprature," C");
+    drawValueEntry(10,90, "Feuchtigkeit: ",values.currentHumidity," %");
+    drawValueEntry(10,120,"Licht: ",values.currentLightCondition,"");
+    drawValueEntry(10,150,"Fuellstand:",values.waterLevel ? "Voll" : "Leer","");
 
     //Ideal Values 
     //Temperatur
@@ -209,12 +188,17 @@ void drawValuesContent(Sensory &sensor) {
     M5.Lcd.setTextColor(WHITE);
     M5.Lcd.setTextColor(GREEN);
     //M5.Lcd.print(...);
-
-
-
-
-
+    }
     
+    //If there is no type argument just pass empty ""
+    template <typename T>
+    void drawValueEntry(int x,int y,String desc,T value,String type) {
+      M5.Lcd.setCursor(x, y);
+      M5.Lcd.setTextColor(WHITE);
+      M5.Lcd.print(desc);
+      M5.Lcd.setTextColor(GREEN);
+      M5.Lcd.print(value);
+      M5.Lcd.print(type);
     }
 
 
@@ -265,4 +249,8 @@ void drawValuesContent(Sensory &sensor) {
 void selectPlant(Plant *plant) {
   plant = &plants[selectedPlantIndex];
 
+}
+
+int getSelectedPlantIndex() {
+  return selectedPlantIndex;
 }

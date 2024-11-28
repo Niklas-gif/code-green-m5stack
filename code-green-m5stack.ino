@@ -33,7 +33,7 @@ void loop() {
     M5.update();
     sensory.update();
     updateUI(sensory);
-    
+    selectedPlant = &plants[getSelectedPlantIndex()];
 
     //DEBUG
     /*Serial.println(sensory.read().currentHumidity);
@@ -43,7 +43,7 @@ void loop() {
     Serial.println(sensory.read().waterLevel);
     Serial.println(sensory.isPumpRunning());*/
     //Serial.println(selectedPlant->getName());
-    //Serial.println(selectedPlant->getName());
+    Serial.println(selectedPlant->getName());
     //DEBUG
 
     delay(100);
