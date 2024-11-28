@@ -160,6 +160,18 @@ void drawPumpContent(Sensory &sensor) {
     M5.Lcd.printf("Pumpe: %s", sensor.isPumpRunning() ? "ON" : "OFF");
 }
 
+
+//If there is no type argument just pass empty ""
+template <typename T>
+void drawValueEntry(int x,int y,String desc,T value,String type) {
+  M5.Lcd.setCursor(x, y);
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.print(desc);
+  M5.Lcd.setTextColor(GREEN);
+  M5.Lcd.print(value);
+  M5.Lcd.print(type);
+  }
+
 //FRAME: VALUES
 void drawValuesContent(Sensory &sensor) {
     M5.Lcd.fillRect(1, 30, 318, 179, BLACK);
@@ -177,19 +189,6 @@ void drawValuesContent(Sensory &sensor) {
     drawValueEntry(150,90,plantName+"->",selectedPlant->idealHumidity," %");
     drawValueEntry(150,120,plantName+"->",selectedPlant->idealLight,"");
     }
-    
-    //If there is no type argument just pass empty ""
-    template <typename T>
-    void drawValueEntry(int x,int y,String desc,T value,String type) {
-      M5.Lcd.setCursor(x, y);
-      M5.Lcd.setTextColor(WHITE);
-      M5.Lcd.print(desc);
-      M5.Lcd.setTextColor(GREEN);
-      M5.Lcd.print(value);
-      M5.Lcd.print(type);
-    }
-
-
     //TODO: FRAME -> Licht / Statstik 
 
 
@@ -212,24 +211,30 @@ void drawValuesContent(Sensory &sensor) {
     }
     //
 
-    if (frames[currentFrame] == PLANT) {
-        if (M5.BtnB.wasPressed()) {
+    switch(frames[currentFrame]) {
+      case PLANT: {
+         if (M5.BtnB.wasPressed()) {
             selectedPlantIndex = (selectedPlantIndex + 1) % 4;  
             drawCurrentFrameContent(sensor);
         }
-    }
-    else if (frames[currentFrame] == PUMP && M5.BtnB.wasPressed()) {
-        sensor.togglePump();  
-        drawCurrentFrameContent(sensor);
-    }
-
-    else if (frames[currentFrame] == VALUES) {
+      }
+      break;
+      case PUMP: {
+        if (M5.BtnB.wasPressed()) {
+          sensor.togglePump();  
+          drawCurrentFrameContent(sensor);
+        }
+      }
+      break;
+      case VALUES: {
         unsigned long currentMillis = millis();
         if (currentMillis - previousMillis >= UPDATE_INTERVAL) {
-            previousMillis = currentMillis;
-            sensor.update();  
-            drawCurrentFrameContent(sensor);
+          previousMillis = currentMillis;
+          sensor.update();  
+          drawCurrentFrameContent(sensor);
         }
+      }
+      break;
     }
 }
 
