@@ -238,8 +238,8 @@ void drawValuesContent(Sensory &sensor) {
     }
 
     if (frames[currentFrame] == "Pflanze") {
-        if (M5.BtnA.wasPressed()) {
-            selectedPlantIndex = (selectedPlantIndex - 1 + 4) % 4;  
+        if (M5.BtnA.wasPressed()) { 
+            selectedPlantIndex = (selectedPlantIndex - 1 + 4) % 4; 
             drawCurrentFrameContent(sensor);
         }
         if (M5.BtnB.wasPressed()) {
@@ -262,6 +262,7 @@ void drawValuesContent(Sensory &sensor) {
     }
 }
 
-int getSelectedPlant() {
-  return selectedPlantIndex;
+void selectPlant(Plant *plant) {
+  plant = &plants[selectedPlantIndex];
+
 }

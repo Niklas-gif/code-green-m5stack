@@ -24,7 +24,7 @@ void setup() {
     Serial.begin(115200);
     M5.begin();
     M5.Power.begin();
-    //selectedPlant = &plants[0];
+    selectedPlant = &plants[0];
     sensory.init();
     initializeUI(sensory);
 }
@@ -43,7 +43,7 @@ void loop() {
     Serial.println(sensory.read().waterLevel);
     Serial.println(sensory.isPumpRunning());*/
     //Serial.println(selectedPlant->getName());
-    //Serial.println(plants[getSelectedPlant()].getName());
+    //Serial.println(selectedPlant->getName());
     //DEBUG
 
     delay(100);

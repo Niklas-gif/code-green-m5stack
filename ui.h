@@ -17,7 +17,5 @@ void drawPumpContent(Sensory &sensor);
 void drawValuesContent(Sensory &sensor);
 
 void selectPlant(Plant *plant);
-//TODO this just for testing refactor later !!!
-int getSelectedPlant();
 
 #endif
