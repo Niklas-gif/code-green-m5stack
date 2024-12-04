@@ -14,6 +14,7 @@ Plant plants[] = {
 int plantCount = 4; //We calculate this at runtime later down the line
 
 Sensory sensory;
+NetworkHelper network;
 
 Plant *selectedPlant;
 /*Controller maybe?*/
@@ -29,6 +30,7 @@ void setup() {
     selectedPlant = &plants[0];
     sensory.init();
     initializeUI(sensory);
+    network.init();
 }
 
 void loop() {
@@ -47,6 +49,7 @@ void loop() {
     //Serial.println(selectedPlant->getName());
     Serial.println(selectedPlant->getName());
     //DEBUG
+    network.update();
 
     delay(100);
 }
