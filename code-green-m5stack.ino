@@ -1,6 +1,7 @@
 #include <M5Stack.h>
 #include "M5UnitENV.h"
 #include "Sensor.h"
+#include "network.h"
 #include "ui.h"
 #include "plant.h"
 
@@ -14,7 +15,7 @@ Plant plants[] = {
 int plantCount = 4; //We calculate this at runtime later down the line
 
 Sensory sensory;
-NetworkHelper network;
+Network network;
 
 Plant *selectedPlant;
 /*Controller maybe?*/
@@ -35,6 +36,10 @@ void setup() {
 
 void loop() {
     M5.update();
+    //Press for 5 seconds idk
+    if(M5.BtnB.wasPressed()) {
+        network.update();
+    }
     sensory.update();
     updateUI(sensory);
     selectedPlant = &plants[getSelectedPlantIndex()];
@@ -49,7 +54,6 @@ void loop() {
     //Serial.println(selectedPlant->getName());
     Serial.println(selectedPlant->getName());
     //DEBUG
-    network.update();
 
     delay(100);
 }

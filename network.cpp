@@ -2,7 +2,7 @@
 #include <HTTPClient.h>
 #include "network.h"
 
-void NetworkHelper::init() {
+void Network::init() {
    WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
@@ -12,7 +12,7 @@ void NetworkHelper::init() {
   Serial.println("Connected to WiFi");
 }
 
-void NetworkHelper::update() {
+void Network::update() {
    if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     http.begin(serverUrl);
