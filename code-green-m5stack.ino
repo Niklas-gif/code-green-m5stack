@@ -20,10 +20,12 @@ Sensory sensory;
 
 Plant *selectedPlant;
 
+/*
 struct SensorValue {
     float currentHumidity;
     float currentTemprature;
 };
+*/
 
 int eeAddress = 0; 
 
