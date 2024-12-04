@@ -3,6 +3,9 @@
 #include "Sensor.h"
 #include "ui.h"
 #include "plant.h"
+#include <EEPROM.h>
+
+#define EEPROM_SIZE 512
 
 Plant plants[] = {
     Plant("Kaktus", kaktus, 25.0, 30.0, 18.0),
@@ -11,24 +14,52 @@ Plant plants[] = {
     Plant("Agave", agave, 28.0, 40.0, 30.00)
 };
 
-int plantCount = 4; //We calculate this at runtime later down the line
+int plantCount = 4; 
 
 Sensory sensory;
 
 Plant *selectedPlant;
-/*Controller maybe?*/
 
-void compareValues(SensorValues sensorValues,Plant selectedPlant) {
+struct SensorValue {
+    float currentHumidity;
+    float currentTemprature;
+};
 
+int eeAddress = 0; 
+
+/* void compareValues(SensorValues sensorValues, Plant selectedPlant) {
 }
+*/
 
 void setup() {
     Serial.begin(115200);
     M5.begin();
     M5.Power.begin();
+
+    // EEPROM initialisieren
+    if (!EEPROM.begin(EEPROM_SIZE)) {
+        Serial.println("Failed to initialize EEPROM");
+        return;
+    }
+
     selectedPlant = &plants[0];
     sensory.init();
     initializeUI(sensory);
+
+    // Sensordaten auslesen und speichern
+    SensorValues values = sensory.read();
+    EEPROM.put(eeAddress, values); 
+    EEPROM.commit();
+    Serial.println("Written SensorValues to EEPROM");
+
+    //Werte aus EEPROM lesen
+    SensorValues storedValues;
+    EEPROM.get(eeAddress, storedValues); // Werte auslesen
+    Serial.println("Read SensorValues from EEPROM:");
+    Serial.print("Temperature: ");
+    Serial.println(storedValues.currentTemprature);
+    Serial.print("Humidity: ");
+    Serial.println(storedValues.currentHumidity);
 }
 
 void loop() {
@@ -37,16 +68,14 @@ void loop() {
     updateUI(sensory);
     selectedPlant = &plants[getSelectedPlantIndex()];
 
-    //DEBUG
-    /*Serial.println(sensory.read().currentHumidity);
-    Serial.println(sensory.read().currentTemprature);
-    Serial.println(sensory.read().currentLightCondition);
-    Serial.println(sensory.read().rawADC);
-    Serial.println(sensory.read().waterLevel);
-    Serial.println(sensory.isPumpRunning());*/
-    //Serial.println(selectedPlant->getName());
-    Serial.println(selectedPlant->getName());
-    //DEBUG
+    SensorValues storedValues;
+    EEPROM.get(eeAddress, storedValues);
 
-    delay(100);
+    Serial.println("Reading SensorValues in loop:");
+    Serial.print("Temperature: ");
+    Serial.println(storedValues.currentTemprature);
+    Serial.print("Humidity: ");
+    Serial.println(storedValues.currentHumidity);
+
+    delay(5000); 
 }
