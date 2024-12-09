@@ -7,9 +7,11 @@ void Network::init() {
    WiFi.begin(ssid, password);
 
   //TODO stop after 3 trys
-  while (WiFi.status() != WL_CONNECTED) {
+  int tries = 0;
+  while (WiFi.status() != WL_CONNECTED && tries != 3) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
+    tries++;
   }
   Serial.println("Connected to WiFi");
 }
@@ -26,7 +28,7 @@ void Network::update(Sensory &sensor) {
     Serial.println("Data sent with response code: " + String(httpResponseCode));
     http.end();
   }
-  delay(2000);
+  delay(500);
 }
 
 //TOOD {\"sensorValue\": 42}
