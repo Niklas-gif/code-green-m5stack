@@ -31,14 +31,14 @@ void setup() {
     selectedPlant = &plants[0];
     sensory.init();
     initializeUI(sensory);
-    //network.init();
+    network.init();
 }
 
 void loop() {
     M5.update();
     //Press for 5 seconds idk
     if(M5.BtnB.pressedFor(5000)) {
-        //network.update(sensory);
+        network.update(sensory);
     }
     sensory.update();
     updateUI(sensory);

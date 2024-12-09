@@ -20,7 +20,7 @@ void Network::update(Sensory &sensor) {
     http.begin(serverUrl);
     http.addHeader("Content-Type", "application/json");
 
-    String jsonData = "{\"sensorValue\": 42}";
+    String jsonData = parseToJson(sensor.read());
     int httpResponseCode = http.POST(jsonData);
 
     Serial.println("Data sent with response code: " + String(httpResponseCode));
@@ -29,7 +29,18 @@ void Network::update(Sensory &sensor) {
   delay(2000);
 }
 
-//TOOD
-String Network::parseToJson(SensorValues &sv,String &plantName) {
-  return " ";
+//TOOD {\"sensorValue\": 42}
+/*
+  typedef struct SensorValues {
+    double currentTemprature;
+    double currentHumidity;
+    int currentLightCondition;
+    int rawADC;
+    bool waterLevel;
+  //TODO we store all sensor Values here and use it as as global context
+  } SensorValues;
+*/
+//"\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\"\n\"currentHumidity\": \"" + String(sv.currentHumidity) + "\"\n}";
+String Network::parseToJson(const SensorValues sv) {
+  return "{\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\",\n\"currentHumidity\": \"" + String(sv.currentHumidity) + "\"\n}";
 }
