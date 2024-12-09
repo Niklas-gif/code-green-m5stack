@@ -42,5 +42,5 @@ void Network::update(Sensory &sensor) {
 */
 //"\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\"\n\"currentHumidity\": \"" + String(sv.currentHumidity) + "\"\n}";
 String Network::parseToJson(const SensorValues sv) {
-  return "{\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\",\n\"currentHumidity\": \"" + String(sv.currentHumidity) + "\"\n}";
+  return "{\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\",\n\"currentHumidity\": \"" + String(sv.currentHumidity,2) + "\"\n}";
 }
