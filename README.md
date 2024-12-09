@@ -1,5 +1,16 @@
 # code-green-m5stack
 
+## setup a passwd.h file
+‘‘‘
+#ifndef PASSWD_H
+#define PASSWD_H
+
+constexpr const char* SSID = "ssid";
+constexpr const char* PASSWORD = "password";
+constexpr const char* SERVERURL = "http://adresse:port/data";
+
+#endif
+‘‘‘
 
 TODO
 

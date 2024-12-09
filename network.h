@@ -1,11 +1,11 @@
 #include "Sensor.h"
-//#include "passwd.h"
+#include "passwd.h"
 
 class Network {
   private:
-  const char* ssid = "";
-  const char* password = "";
-  const char* serverUrl = "";
+  const char* ssid = SSID;
+  const char* password = PASSWORD;
+  const char* serverUrl = SERVERURL;
   String parseToJson(SensorValues sv);
 
   public:
