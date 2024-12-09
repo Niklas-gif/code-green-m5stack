@@ -5,6 +5,10 @@
 #include "ui.h"
 #include "plant.h"
 
+const int TOLERANCE_HUMIDITY = 5;
+const int TOLERANCE_TEMP = 5;
+const int TOLERANCE_LIGHT = 0;
+
 Plant plants[] = {
     Plant("Kaktus", kaktus, 25.0, 30.0, 18.0),
     Plant("Bonsai", bonsai, 22.0, 60.0, 14.00),
@@ -20,8 +24,11 @@ Network network;
 Plant *selectedPlant;
 /*Controller maybe?*/
 
-void compareValues(SensorValues sensorValues,Plant selectedPlant) {
-
+void compareValues(Sensory &sensory,Plant selectedPlant) {
+  SensorValues sv = sensory.read();
+  if(sv.currentHumidity < selectedPlant.idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {
+    //TODO run pump for 5 seconds
+  }
 }
 
 void setup() {
