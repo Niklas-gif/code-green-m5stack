@@ -38,20 +38,13 @@ void loop() {
     M5.update();
     //Press for 5 seconds idk
     if(M5.BtnB.pressedFor(5000)) {
-        network.update(sensory);
+        network.update(sensory,500);
     }
     sensory.update();
     updateUI(sensory);
     selectedPlant = &plants[getSelectedPlantIndex()];
 
     //DEBUG
-    /*Serial.println(sensory.read().currentHumidity);
-    Serial.println(sensory.read().currentTemprature);
-    Serial.println(sensory.read().currentLightCondition);
-    Serial.println(sensory.read().rawADC);
-    Serial.println(sensory.read().waterLevel);
-    Serial.println(sensory.isPumpRunning());*/
-    //Serial.println(selectedPlant->getName());
     Serial.println(selectedPlant->getName());
     //DEBUG
 

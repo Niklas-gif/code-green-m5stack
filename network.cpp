@@ -4,10 +4,9 @@
 #include "Sensor.h"
 
 void Network::init() {
-   WiFi.begin(ssid, password);
-
-  //TODO stop after 3 trys
+  WiFi.begin(ssid, password);
   int tries = 0;
+
   while (WiFi.status() != WL_CONNECTED && tries != 3) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
@@ -16,7 +15,7 @@ void Network::init() {
   Serial.println("Connected to WiFi");
 }
 
-void Network::update(Sensory &sensor) {
+void Network::update(Sensory &sensor,int delayTime) {
    if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     http.begin(serverUrl);
@@ -28,10 +27,9 @@ void Network::update(Sensory &sensor) {
     Serial.println("Data sent with response code: " + String(httpResponseCode));
     http.end();
   }
-  delay(500);
+  delay(delayTime);
 }
 
-//TOOD {\"sensorValue\": 42}
 /*
   typedef struct SensorValues {
     double currentTemprature;
@@ -42,7 +40,7 @@ void Network::update(Sensory &sensor) {
   //TODO we store all sensor Values here and use it as as global context
   } SensorValues;
 */
-//"\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\"\n\"currentHumidity\": \"" + String(sv.currentHumidity) + "\"\n}";
+//TODO plant name rest of the values
 String Network::parseToJson(const SensorValues sv) {
   return "{\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\",\n\"currentHumidity\": \"" + String(sv.currentHumidity,2) + "\"\n}";
 }
