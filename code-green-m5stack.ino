@@ -5,8 +5,22 @@
 #include "ui.h"
 #include "plant.h"
 
+unsigned long previousTime = 0;
+
+//SAVE ALGORITHMEN
+const unsigned long SAVE_TRIGGER_TIME = (1000*60)*5;
+bool triggerSave = true;
+unsigned long currentSaveTime = 0;
+//
+
+//NETWORK ALGORITHMEN
+const unsigned long SEND_TRIGGER_TIME = (1000*60)*10;
+bool triggerRequest = false;
+unsigned long currentNetworkTime = 0;
+//
+
 //PUMP ALGORITHMEN
-const unsigned long PUMP_INTERVAL_TIME = 5000;
+const unsigned long PUMP_INTERVAL_TIME = 5000; //LATER 10 seconds
 bool triggerPump = false;
 unsigned long currentPumpTime = 0;
 //
@@ -26,15 +40,10 @@ int plantCount = 4; //We calculate this at runtime later down the line
 
 Sensory sensory;
 Network network;
-
 Plant *selectedPlant;
-/*Controller maybe?*/
 
-void compareValues(Sensory &sensory,Plant selectedPlant) {
-  SensorValues sv = sensory.read();
-  //if(sv.currentHumidity < selectedPlant.idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {
-    //TODO run pump for 5 seconds
-  //}
+void triggerPumpBackground() {
+  //if(sv.currentHumidity < selectedPlant.idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {} <- CONDITION
   if(!sensory.isPumpRunning()) {
     currentPumpTime = millis();
     sensory.togglePump();
@@ -58,13 +67,14 @@ void setup() {
 }
 
 void loop() {
+    //unsigned long currentTime = millis();
     M5.update();
 
     if(M5.BtnA.pressedFor(1000)) {
       triggerPump = true;
     } 
     if(triggerPump) {
-      compareValues(sensory,*selectedPlant);
+      triggerPumpBackground();
     }
 
     if(M5.BtnB.pressedFor(3000)) {
@@ -77,6 +87,6 @@ void loop() {
     //DEBUG
     //Serial.println(selectedPlant->getName());
     //DEBUG
-
+    previousTime = currentTime;
     delay(100);
 }
