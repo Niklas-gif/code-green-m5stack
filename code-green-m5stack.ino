@@ -26,12 +26,12 @@ bool triggerPump = false;
 unsigned long currentPumpTime = 0;
 //
 
-const int TOLERANCE_HUMIDITY = 5;
+const int TOLERANCE_HUMIDITY = 0;
 const int TOLERANCE_TEMP = 5;
 const int TOLERANCE_LIGHT = 0;
 
 Plant plants[] = {
-    Plant("Kaktus", kaktus, 25.0, 30.0, 18.0),
+    Plant("Kaktus", kaktus, 25.0, 45.0, 18.0),
     Plant("Bonsai", bonsai, 22.0, 60.0, 14.00),
     Plant("Orchid", orchid, 21.0, 65.0, 12.00),
     Plant("Agave", agave, 28.0, 40.0, 30.00)
@@ -43,8 +43,17 @@ Sensory sensory;
 Network network;
 Plant *selectedPlant;
 
+void algorithmenPump(Sensory &sensory) {
+    SensorValues sv = sensory.read();
+    if(sv.currentHumidity < selectedPlant->idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {
+      triggerPump = true;
+    } 
+    if(triggerPump) {
+      triggerPumpBackground();
+    }
+}
+
 void triggerPumpBackground() {
-  //if(sv.currentHumidity < selectedPlant.idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {} <- CONDITION
   if(!sensory.isPumpRunning()) {
     currentPumpTime = millis();
     sensory.togglePump();
@@ -70,13 +79,7 @@ void setup() {
 void loop() {
     //unsigned long currentTime = millis();
     M5.update();
-
-    if(M5.BtnA.pressedFor(1000)) {
-      triggerPump = true;
-    } 
-    if(triggerPump) {
-      triggerPumpBackground();
-    }
+    algorithmenPump(sensory);
 
     if(M5.BtnB.pressedFor(3000)) {
         network.update(sensory,500);
