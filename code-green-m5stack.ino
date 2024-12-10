@@ -5,11 +5,11 @@
 #include "ui.h"
 #include "plant.h"
 
-unsigned long currentTime = 0;
-unsigned long previousTime = 0;
+//PUMP ALGORITHMEN
+const unsigned long PUMP_INTERVAL_TIME = 5000;
 bool triggerPump = false;
-
-const unsigned long PUMP_INTERVAL_TIME = 1000;
+unsigned long currentPumpTime = 0;
+//
 
 const int TOLERANCE_HUMIDITY = 5;
 const int TOLERANCE_TEMP = 5;
@@ -31,20 +31,20 @@ Plant *selectedPlant;
 /*Controller maybe?*/
 
 void compareValues(Sensory &sensory,Plant selectedPlant) {
-  //SensorValues sv = sensory.read();
-  /*if(sv.currentHumidity < selectedPlant.idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {
+  SensorValues sv = sensory.read();
+  //if(sv.currentHumidity < selectedPlant.idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {
     //TODO run pump for 5 seconds
-  }*/
+  //}
   if(!sensory.isPumpRunning()) {
-    currentTime = millis();
+    currentPumpTime = millis();
     sensory.togglePump();
-  } else {
-  if(millis() - currentTime >= PUMP_INTERVAL_TIME) {
+  } 
+
+  if(millis() - currentPumpTime >= PUMP_INTERVAL_TIME) {
     triggerPump = false;
     sensory.togglePump();
+  } 
 
-  }
-  }
 }
 
 void setup() {
@@ -58,7 +58,6 @@ void setup() {
 }
 
 void loop() {
-    //currentTime = millis();
     M5.update();
 
     if(M5.BtnA.pressedFor(1000)) {
