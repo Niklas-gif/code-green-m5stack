@@ -67,11 +67,6 @@ bool Sensory::pumpInit() {
 
 
 void Sensory::init() {
-  /*if(sht40Init() && bmp280Init()) {
-    Serial.println("Okay");
-  } else {
-    Serial.println("Failed to Init sensor");
-  }*/
   //TODO maybe we give the user the option to enable or disable the led?
   waterLevelLED = true;
   waterLevelSensorInit();

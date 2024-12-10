@@ -1,5 +1,6 @@
 #include <M5Stack.h>
-#include "M5UnitENV.h"
+#include <M5UnitENV.h>
+
 #include "Sensor.h"
 #include "network.h"
 #include "ui.h"
@@ -83,10 +84,6 @@ void loop() {
     sensory.update();
     updateUI(sensory);
     selectedPlant = &plants[getSelectedPlantIndex()];
-
-    //DEBUG
-    //Serial.println(selectedPlant->getName());
-    //DEBUG
-    previousTime = currentTime;
+    //previousTime = currentTime;
     delay(100);
 }
