@@ -10,5 +10,5 @@ class Network {
 
   public:
     void init();
-    void update(Sensory &sensory, int delayTime);
+    void send(Sensory &sensory, int delayTime);
 };

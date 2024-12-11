@@ -15,7 +15,7 @@ void Network::init() {
   Serial.println("Connected to WiFi");
 }
 
-void Network::update(Sensory &sensor,int delayTime) {
+void Network::send(Sensory &sensor,int delayTime) {
    if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     http.begin(serverUrl);

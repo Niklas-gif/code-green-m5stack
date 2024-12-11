@@ -6,18 +6,11 @@
 #include "ui.h"
 #include "plant.h"
 
-unsigned long previousTime = 0;
-
-//SAVE ALGORITHMEN
-const unsigned long SAVE_TRIGGER_TIME = (1000*60)*5;
-bool triggerSave = true;
-unsigned long currentSaveTime = 0;
-//
-
 //NETWORK ALGORITHMEN
-const unsigned long SEND_TRIGGER_TIME = (1000*60)*10;
-bool triggerRequest = false;
+const unsigned long SEND_TRIGGER_TIME = (1000*60)*5;
+bool triggerSend = false;
 unsigned long currentNetworkTime = 0;
+unsigned long previousNetworkTime = 0;
 //
 
 //PUMP ALGORITHMEN
@@ -43,28 +36,32 @@ Sensory sensory;
 Network network;
 Plant *selectedPlant;
 
+void algorithmenNetwork(Sensory &sensory) {
+  currentNetworkTime = millis();
+  if(currentNetworkTime - previousNetworkTime >= SEND_TRIGGER_TIME) {
+    previousNetworkTime = currentNetworkTime;
+    network.send(sensory,500);
+  }
+}
+
 void algorithmenPump(Sensory &sensory) {
     SensorValues sv = sensory.read();
     if(sv.currentHumidity < selectedPlant->idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {
       triggerPump = true;
     } 
     if(triggerPump) {
-      triggerPumpBackground();
+      if(!sensory.isPumpRunning()) {
+      currentPumpTime = millis();
+      sensory.togglePump();
+      } 
+
+    if(millis() - currentPumpTime >= PUMP_INTERVAL_TIME) {
+      triggerPump = false;
+      sensory.togglePump();
+      } 
     }
 }
 
-void triggerPumpBackground() {
-  if(!sensory.isPumpRunning()) {
-    currentPumpTime = millis();
-    sensory.togglePump();
-  } 
-
-  if(millis() - currentPumpTime >= PUMP_INTERVAL_TIME) {
-    triggerPump = false;
-    sensory.togglePump();
-  } 
-
-}
 
 void setup() {
     Serial.begin(115200);
@@ -77,16 +74,14 @@ void setup() {
 }
 
 void loop() {
-    //unsigned long currentTime = millis();
     M5.update();
     algorithmenPump(sensory);
-
+    algorithmenNetwork(sensory);
     if(M5.BtnB.pressedFor(3000)) {
-        network.update(sensory,500);
+        network.send(sensory,500);
     }
     sensory.update();
     updateUI(sensory);
     selectedPlant = &plants[getSelectedPlantIndex()];
-    //previousTime = currentTime;
     delay(100);
 }
