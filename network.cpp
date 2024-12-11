@@ -12,7 +12,12 @@ void Network::init() {
     Serial.println("Connecting to WiFi...");
     tries++;
   }
-  Serial.println("Connected to WiFi");
+  if(WiFi.status() == WL_CONNECTED) {
+    Serial.println("Connected to WiFi");
+    return;
+  }
+
+  return;
 }
 
 void Network::send(Sensory &sensor,int delayTime) {
@@ -43,4 +48,11 @@ void Network::send(Sensory &sensor,int delayTime) {
 //TODO plant name rest of the values
 String Network::parseToJson(const SensorValues sv) {
   return "{\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\",\n\"currentHumidity\": \"" + String(sv.currentHumidity,2) + "\"\n}";
+}
+
+bool Network::status() {
+  if(WiFi.status() == WL_CONNECTED) {
+    return true;
+  }
+  return false;
 }
