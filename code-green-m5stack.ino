@@ -14,7 +14,7 @@ unsigned long previousNetworkTime = 0;
 //
 
 //PUMP ALGORITHMEN
-const unsigned long PUMP_INTERVAL_TIME = 5000; //LATER 10 seconds
+const unsigned long PUMP_INTERVAL_TIME = 5000;
 bool triggerPump = false;
 unsigned long currentPumpTime = 0;
 //
@@ -30,13 +30,13 @@ Plant plants[] = {
     Plant("Agave", agave, 28.0, 40.0, 30.00)
 };
 
-int plantCount = 4; //We calculate this at runtime later down the line
+int plantCount = 4;
 
 Sensory sensory;
 Network network;
 Plant *selectedPlant;
 
-void algorithmenNetwork(Sensory &sensory) {
+void sendData(Sensory &sensory) {
   currentNetworkTime = millis();
   if(currentNetworkTime - previousNetworkTime >= SEND_TRIGGER_TIME) {
     previousNetworkTime = currentNetworkTime;
@@ -44,20 +44,20 @@ void algorithmenNetwork(Sensory &sensory) {
   }
 }
 
-void algorithmenPump(Sensory &sensory) {
+void autoTriggerPump(Sensory &sensory) {
     SensorValues sv = sensory.read();
     if(sv.currentHumidity < selectedPlant->idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {
       triggerPump = true;
     } 
     if(triggerPump) {
       if(!sensory.isPumpRunning()) {
-      currentPumpTime = millis();
-      sensory.togglePump();
+        currentPumpTime = millis();
+        sensory.togglePump();
       } 
 
-    if(millis() - currentPumpTime >= PUMP_INTERVAL_TIME) {
-      triggerPump = false;
-      sensory.togglePump();
+      if(millis() - currentPumpTime >= PUMP_INTERVAL_TIME) {
+        triggerPump = false;
+        sensory.togglePump();
       } 
     }
 }
@@ -75,10 +75,10 @@ void setup() {
 
 void loop() {
     M5.update();
-    algorithmenPump(sensory);
-    algorithmenNetwork(sensory);
+    autoTriggerPump(sensory);
+    sendData(sensory);
     if(M5.BtnB.pressedFor(3000)) {
-        network.send(sensory,500);
+      network.send(sensory,500);
     }
     sensory.update();
     updateUI(sensory);
