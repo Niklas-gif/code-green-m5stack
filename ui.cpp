@@ -12,7 +12,7 @@
 extern Plant plants[];
 extern Plant *selectedPlant; 
 
-Screen frames[] = {LIGHT,PUMP,PLANT,VALUES};
+Screen frames[] = {SETTINGS,PUMP,PLANT,VALUES};
 int currentFrame = 0; 
 
 int selectedPlantIndex = 0;
@@ -22,7 +22,7 @@ const unsigned long UPDATE_INTERVAL = 2000;
 
 String screenToString(Screen screen) {
   switch(screen) {
-    case LIGHT: return "Licht";
+    case SETTINGS: return "Settings";
     case PUMP: return "Pumpe";
     case PLANT: return "Pflanze";
     case VALUES: return "Werte";
@@ -81,7 +81,12 @@ void drawCurrentFrameContent(Sensory &sensor) {
       case PLANT:drawPlantContent();break;
       case PUMP:drawPumpContent(sensor);break;
       case VALUES:drawValuesContent(sensor);break;
+      case SETTINGS:drawSettingsContent();break;
     }
+}
+
+void drawSettingsContent() {
+  drawValueEntry(10,150,"Settings","Settings","");
 }
 
 //FRAME: PFLANZEN
@@ -156,6 +161,7 @@ void drawPumpContent(Sensory &sensor) {
     M5.Lcd.setCursor(10, 90);
     M5.Lcd.setTextColor(GREEN);
     M5.Lcd.printf("Pumpe: %s", sensor.isPumpRunning() ? "ON" : "OFF");
+    drawValueEntry(10,150,"Fuellstand:",sensor.read().waterLevel ? "Voll" : "Leer","");
 }
 
 
@@ -179,7 +185,6 @@ void drawValuesContent(Sensory &sensor) {
     drawValueEntry(10,60,"Temperatur: ",values.currentTemprature," C");
     drawValueEntry(10,90, "Feuchtigkeit: ",values.currentHumidity," %");
     drawValueEntry(10,120,"Licht: ",values.currentLightCondition,"");
-    drawValueEntry(10,150,"Fuellstand:",values.waterLevel ? "Voll" : "Leer","");
 
     //Ideal Values 
     //Temperatur
@@ -233,6 +238,9 @@ void drawValuesContent(Sensory &sensor) {
         }
       }
       break;
+      case SETTINGS: {
+        break;
+      }
     }
 }
 

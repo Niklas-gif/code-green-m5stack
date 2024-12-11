@@ -5,7 +5,7 @@
 #include "plant.h"
 #include <M5Stack.h>
 
-typedef enum Screen { LIGHT, PUMP, PLANT, VALUES } Screen;
+typedef enum Screen { SETTINGS, PUMP, PLANT, VALUES } Screen;
 
 void initializeUI(Sensory &sensor);
 void selectPlant(Plant *plant);
@@ -22,5 +22,6 @@ void drawCurrentFrameContent(Sensory &sensor);
 void drawPlantContent();
 void drawPumpContent(Sensory &sensor);
 void drawValuesContent(Sensory &sensor);
+void drawSettingsContent();
 
 #endif

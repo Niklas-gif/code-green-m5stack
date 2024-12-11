@@ -26,7 +26,7 @@ const int TOLERANCE_LIGHT = 0;
 Plant plants[] = {
     Plant("Kaktus", kaktus, 25.0, 45.0, 18.0),
     Plant("Bonsai", bonsai, 22.0, 60.0, 14.00),
-    Plant("Orchid", orchid, 21.0, 65.0, 12.00),
+    Plant("Orchid", orchid, 21.0, 30.0, 12.00),
     Plant("Agave", agave, 28.0, 40.0, 30.00)
 };
 
