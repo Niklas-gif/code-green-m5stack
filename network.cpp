@@ -16,8 +16,6 @@ void Network::init() {
     Serial.println("Connected to WiFi");
     return;
   }
-
-  return;
 }
 
 void Network::send(Sensory &sensor,int delayTime) {

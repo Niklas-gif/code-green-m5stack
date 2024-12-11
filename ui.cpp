@@ -86,7 +86,7 @@ void drawCurrentFrameContent(Sensory &sensor) {
 }
 
 void drawSettingsContent() {
-  drawValueEntry(10,150,"Settings","Settings","");
+  drawValueEntry(10,60,"Settings","","");
 }
 
 //FRAME: PFLANZEN
