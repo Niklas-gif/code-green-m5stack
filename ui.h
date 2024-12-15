@@ -13,11 +13,10 @@ void selectPlant(Plant *plant);
 int getSelectedPlantIndex();
 void updateUI(Sensory &sensor,Network &network);
 
-
-//This function are private !!!
 template <typename T>
 void drawValueEntry(int x,int y,String desc,T value,String type);
 String screenToString(Screen screen);
+String wifiStatus(Network &netwok);
 void drawNavigationBar();
 void drawCurrentFrameContent(Sensory &sensor,Network &network);
 void drawPlantContent();

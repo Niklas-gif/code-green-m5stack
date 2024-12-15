@@ -2,6 +2,7 @@
 #include <M5Stack.h>
 #include "picture.h"
 #include "plant.h"
+#include "WiFiType.h"
 #include <Adafruit_GFX.h>
 
 #define DARK_GREEN  0x03E0
@@ -25,6 +26,19 @@ String screenToString(Screen screen) {
     case PUMP: return "Pumpe";
     case PLANT: return "Pflanze";
     case VALUES: return "Werte";
+  }
+}
+
+String wifiStatus(Network &network) {
+  switch(network.status()) {
+    case wl_status_t::WL_NO_SHIELD: return "MISSING SHIELD";
+    case wl_status_t::WL_IDLE_STATUS: return "IDLE";
+    case wl_status_t::WL_NO_SSID_AVAIL: return "SSID AVAIL";
+    case wl_status_t::WL_SCAN_COMPLETED: return "SCAN COMPLETED";
+    case wl_status_t::WL_CONNECTED: return "CONNECTED";
+    case wl_status_t::WL_CONNECT_FAILED: return "CONNECTION FAILED";
+    case wl_status_t::WL_CONNECTION_LOST: return "CONNECTION LOST";
+    case wl_status_t::WL_DISCONNECTED: return "DISCONNECTED";
   }
 }
 
@@ -85,7 +99,7 @@ void drawCurrentFrameContent(Sensory &sensor,Network &network) {
 
 void drawSettingsContent(Network &network) {
   drawValueEntry(115,60,"-- Settings --","","");
-  drawValueEntry(10,90,"Network state: ",network.status(),"");
+  drawValueEntry(10,90,"Network state: ",wifiStatus(network),"");
   drawValueEntry(10,110,"Algorithmen state: ","","");
   drawValueEntry(10,140,"Waterlevel LED state:","","");
 
