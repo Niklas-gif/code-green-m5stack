@@ -7,7 +7,6 @@
     int currentLightCondition;
     int rawADC;
     bool waterLevel;
-  //TODO we store all sensor Values here and use it as as global context
   } SensorValues;
 
   class Sensory {

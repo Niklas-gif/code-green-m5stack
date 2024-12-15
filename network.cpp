@@ -7,7 +7,7 @@ void Network::init() {
   WiFi.begin(ssid, password);
   int tries = 0;
 
-  while (WiFi.status() != WL_CONNECTED && tries != 3) {
+  while (WiFi.status() != WL_CONNECTED || tries == 3) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
     tries++;
@@ -48,9 +48,6 @@ String Network::parseToJson(const SensorValues sv) {
   return "{\"currentTemprature\": \"" + String(sv.currentTemprature,2) + "\",\n\"currentHumidity\": \"" + String(sv.currentHumidity,2) + "\"\n}";
 }
 
-bool Network::status() {
-  if(WiFi.status() == WL_CONNECTED) {
-    return true;
-  }
-  return false;
+wl_status_t Network::status() {
+  return WiFi.status();
 }

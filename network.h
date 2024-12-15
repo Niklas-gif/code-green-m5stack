@@ -1,5 +1,6 @@
 #include "Sensor.h"
 #include "passwd.h"
+#include <WiFiType.h>
 
 class Network {
   private:
@@ -11,5 +12,5 @@ class Network {
   public:
     void init();
     void send(Sensory &sensory, int delayTime);
-    bool status();
+    wl_status_t status();
 };
