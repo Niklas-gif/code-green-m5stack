@@ -114,3 +114,7 @@ void Sensory::toggleWaterLevelLED() {
   waterLevelLED = !waterLevelLED;
   //digitalWrite(WATERLEVEL_LED_PIN,waterLevelLED);
 }
+
+bool Sensory::waterLevelLEDState() {
+  return waterLevelLED;
+}

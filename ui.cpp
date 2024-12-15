@@ -93,15 +93,15 @@ void drawCurrentFrameContent(Sensory &sensor,Network &network) {
       case PLANT:drawPlantContent();break;
       case PUMP:drawPumpContent(sensor);break;
       case VALUES:drawValuesContent(sensor);break;
-      case SETTINGS:drawSettingsContent(network);break;
+      case SETTINGS:drawSettingsContent(network,sensor);break;
     }
 }
 
-void drawSettingsContent(Network &network) {
+void drawSettingsContent(Network &network,Sensory &sensor) {
   drawValueEntry(115,60,"-- Settings --","","");
   drawValueEntry(10,90,"Network state: ",wifiStatus(network),"");
-  drawValueEntry(10,110,"Algorithmen state: ","","");
-  drawValueEntry(10,140,"Waterlevel LED state:","","");
+  drawValueEntry(10,120,"Algorithmen state: ","","");
+  drawValueEntry(10,150,"Waterlevel LED state:",sensor.waterLevelLEDState() ? "ON" : "OFF","");
 
 }
 

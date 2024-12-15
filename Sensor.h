@@ -26,5 +26,6 @@
       void togglePump();
       void toggleWaterLevelLED();
       bool isPumpRunning();
+      bool waterLevelLEDState();
       SensorValues read();
   };

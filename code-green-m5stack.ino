@@ -31,6 +31,7 @@ Plant plants[] = {
 };
 
 int plantCount = 4;
+bool algorithmIsRunning = true;
 
 Sensory sensory;
 Network network;
@@ -75,13 +76,16 @@ void setup() {
 
 void loop() {
     M5.update();
-    autoTriggerPump(sensory);
-    sendData(sensory);
+    if(algorithmIsRunning) {
+      autoTriggerPump(sensory);
+      sendData(sensory);
+    }
+
     if(M5.BtnB.pressedFor(3000)) {
       network.send(sensory,500);
     }
+
     sensory.update();
     updateUI(sensory,network);
     selectedPlant = &plants[getSelectedPlantIndex()];
-    delay(100);
 }
