@@ -1,6 +1,5 @@
 #include "ui.h"
 #include <M5Stack.h>
-#include "sensor.h"
 #include "picture.h"
 #include "plant.h"
 #include <Adafruit_GFX.h>
@@ -33,7 +32,7 @@ void initializeUI(Sensory &sensor) {
     M5.Lcd.setRotation(1); 
     M5.Lcd.fillScreen(BLACK);
     drawNavigationBar();
-    drawCurrentFrameContent(sensor); 
+    //drawCurrentFrameContent(sensor,network); 
 }
 
 void drawNavigationBar() {
@@ -74,7 +73,7 @@ void drawNavigationBar() {
 }
 
 
-void drawCurrentFrameContent(Sensory &sensor) {
+void drawCurrentFrameContent(Sensory &sensor,Network &network) {
     M5.Lcd.fillRect(1, 41, 318, 179, BLACK);
 
     switch(frames[currentFrame]) {
@@ -198,19 +197,19 @@ void drawValuesContent(Sensory &sensor) {
 
     //
 
-    void updateUI(Sensory &sensor) {
+    void updateUI(Sensory &sensor,Network &network) {
 
     //Navigate through the frames
     if (M5.BtnC.wasPressed()) {
         currentFrame = (currentFrame + 1) % 4;  
         drawNavigationBar();
-        drawCurrentFrameContent(sensor);
+        drawCurrentFrameContent(sensor,network);
     }
 
     if (M5.BtnA.wasPressed()) {
         currentFrame = (currentFrame - 1 + 4) % 4;  
         drawNavigationBar();
-        drawCurrentFrameContent(sensor);
+        drawCurrentFrameContent(sensor,network);
     }
     //
 
@@ -218,14 +217,14 @@ void drawValuesContent(Sensory &sensor) {
       case PLANT: {
          if (M5.BtnB.wasPressed()) {
             selectedPlantIndex = (selectedPlantIndex + 1) % 4;  
-            drawCurrentFrameContent(sensor);
+            drawCurrentFrameContent(sensor,network);
         }
       }
       break;
       case PUMP: {
         if (M5.BtnB.wasPressed()) {
           sensor.togglePump();  
-          drawCurrentFrameContent(sensor);
+          drawCurrentFrameContent(sensor,network);
         }
       }
       break;
@@ -234,7 +233,7 @@ void drawValuesContent(Sensory &sensor) {
         if (currentMillis - previousMillis >= UPDATE_INTERVAL) {
           previousMillis = currentMillis;
           sensor.update();  
-          drawCurrentFrameContent(sensor);
+          drawCurrentFrameContent(sensor,network);
         }
       }
       break;

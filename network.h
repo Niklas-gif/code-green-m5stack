@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Sensor.h"
 #include "passwd.h"
 #include <WiFiType.h>

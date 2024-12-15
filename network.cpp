@@ -7,7 +7,7 @@ void Network::init() {
   WiFi.begin(ssid, password);
   int tries = 0;
 
-  while (WiFi.status() != WL_CONNECTED || tries == 3) {
+  while (WiFi.status() != WL_CONNECTED && tries != 3) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
     tries++;

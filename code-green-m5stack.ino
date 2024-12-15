@@ -69,8 +69,8 @@ void setup() {
     M5.Power.begin();
     selectedPlant = &plants[0];
     sensory.init();
-    initializeUI(sensory);
     network.init();
+    initializeUI(sensory);
 }
 
 void loop() {
@@ -81,7 +81,7 @@ void loop() {
       network.send(sensory,500);
     }
     sensory.update();
-    updateUI(sensory);
+    updateUI(sensory,network);
     selectedPlant = &plants[getSelectedPlantIndex()];
     delay(100);
 }
