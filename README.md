@@ -1,9 +1,9 @@
 # code-green-m5stack
 
-##How to use
+## How to use
 
-You have to create the following headerfile
-### passwd.h
+### Inital setup
+You have to create a headerfile passwd.h
 ```bash
 #ifndef PASSWD_H
 #define PASSWD_H
@@ -17,7 +17,6 @@ constexpr const char* SERVERURL = "http://adresse:port/data";
 
 Or comment out passwd.h inside network.h and replace the constants
 
-### network.h
 ```bash
 #pragma once
 
@@ -59,7 +58,6 @@ SHT4X sht40;
 BMP280 bmp;
 ```
 
-### Dependencies
 
 
 
