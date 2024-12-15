@@ -255,6 +255,11 @@ void drawValuesContent(Sensory &sensor) {
       }
       break;
       case SETTINGS: {
+        unsigned long currentMillis = millis();
+        if (currentMillis - previousMillis >= UPDATE_INTERVAL) {
+          previousMillis = currentMillis;
+          drawCurrentFrameContent(sensor,network);
+        }
         break;
       }
     }
