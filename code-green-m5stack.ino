@@ -7,7 +7,7 @@
 #include "plant.h"
 
 //NETWORK ALGORITHMEN
-const unsigned long SEND_TRIGGER_TIME = (1000*60)*5;
+const unsigned long SEND_TRIGGER_TIME = (1000*60)*5; //This sets the interval when sensor information gets send to the Server.
 bool triggerSend = false;
 unsigned long currentNetworkTime = 0;
 unsigned long previousNetworkTime = 0;
@@ -19,9 +19,9 @@ bool triggerPump = false;
 unsigned long currentPumpTime = 0;
 //
 
-const int TOLERANCE_HUMIDITY = 0;
-const int TOLERANCE_TEMP = 5;
-const int TOLERANCE_LIGHT = 0;
+//const int TOLERANCE_HUMIDITY = 0;
+//const int TOLERANCE_TEMP = 5;
+//const int TOLERANCE_LIGHT = 0;
 
 Plant plants[] = {
     Plant("Kaktus", kaktus, 25.0, 45.0, 18.0),
@@ -47,7 +47,7 @@ void sendData(Sensory &sensory) {
 
 void autoTriggerPump(Sensory &sensory) {
     SensorValues sv = sensory.read();
-    if(sv.currentHumidity < selectedPlant->idealHumidity + TOLERANCE_HUMIDITY && sv.waterLevel == true) {
+    if(sv.currentHumidity < selectedPlant->idealHumidity && sv.waterLevel == true) {
       triggerPump = true;
     } 
     if(triggerPump) {
