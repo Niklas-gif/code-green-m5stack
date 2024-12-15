@@ -23,6 +23,6 @@ void drawCurrentFrameContent(Sensory &sensor,Network &network);
 void drawPlantContent();
 void drawPumpContent(Sensory &sensor);
 void drawValuesContent(Sensory &sensor);
-void drawSettingsContent();
+void drawSettingsContent(Network &network);
 
 #endif

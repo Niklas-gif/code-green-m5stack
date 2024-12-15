@@ -32,7 +32,6 @@ void initializeUI(Sensory &sensor) {
     M5.Lcd.setRotation(1); 
     M5.Lcd.fillScreen(BLACK);
     drawNavigationBar();
-    //drawCurrentFrameContent(sensor,network); 
 }
 
 void drawNavigationBar() {
@@ -80,12 +79,16 @@ void drawCurrentFrameContent(Sensory &sensor,Network &network) {
       case PLANT:drawPlantContent();break;
       case PUMP:drawPumpContent(sensor);break;
       case VALUES:drawValuesContent(sensor);break;
-      case SETTINGS:drawSettingsContent();break;
+      case SETTINGS:drawSettingsContent(network);break;
     }
 }
 
-void drawSettingsContent() {
-  drawValueEntry(10,60,"Settings","","");
+void drawSettingsContent(Network &network) {
+  drawValueEntry(115,60,"-- Settings --","","");
+  drawValueEntry(10,90,"Network state: ",network.status(),"");
+  drawValueEntry(10,110,"Algorithmen state: ","","");
+  drawValueEntry(10,140,"Waterlevel LED state:","","");
+
 }
 
 //FRAME: PFLANZEN
