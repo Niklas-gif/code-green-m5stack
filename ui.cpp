@@ -16,6 +16,7 @@ Screen frames[] = {SETTINGS,PUMP,PLANT,VALUES};
 int currentFrame = 0; 
 
 int selectedPlantIndex = 0;
+int selectedSettingsOption = 0;
 
 unsigned long previousMillis = 0;
 const unsigned long UPDATE_INTERVAL = 2000; 
@@ -98,10 +99,11 @@ void drawCurrentFrameContent(Sensory &sensor,Network &network) {
 }
 
 void drawSettingsContent(Network &network,Sensory &sensor) {
-  drawValueEntry(115,60,"-- Settings --","","");
-  drawValueEntry(10,90,"Network state: ",wifiStatus(network),"");
-  drawValueEntry(10,120,"Algorithmen state: ","","");
-  drawValueEntry(10,150,"Waterlevel LED state:",sensor.waterLevelLEDState() ? "ON" : "OFF","");
+  SettingsOption so = (SettingsOption) selectedSettingsOption;
+  drawValueEntry(115,60,"-- Settings --","","",false);
+  drawValueEntry(10,90,"Network state: ",wifiStatus(network),"",so == NETWORK ? true : false);
+  drawValueEntry(10,120,"Algorithmen state: ","","",so == AUTO ? true : false);
+  drawValueEntry(10,150,"Waterlevel LED state:",sensor.waterLevelLEDState() ? " ON" : " OFF","",so == WATERLEVEL_LED ? true : false);
 
 }
 
@@ -177,15 +179,15 @@ void drawPumpContent(Sensory &sensor) {
     M5.Lcd.setCursor(10, 90);
     M5.Lcd.setTextColor(GREEN);
     M5.Lcd.printf("Pumpe: %s", sensor.isPumpRunning() ? "ON" : "OFF");
-    drawValueEntry(10,150,"Fuellstand:",sensor.read().waterLevel ? "Voll" : "Leer","");
+    drawValueEntry(10,150,"Fuellstand:",sensor.read().waterLevel ? "Voll" : "Leer","",false);
 }
 
 
 //If there is no type argument just pass empty ""
 template <typename T>
-void drawValueEntry(int x,int y,String desc,T value,String type) {
+void drawValueEntry(int x,int y,String desc,T value,String type,bool isSelected) {
   M5.Lcd.setCursor(x, y);
-  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setTextColor(isSelected ? GREEN : WHITE);
   M5.Lcd.print(desc);
   M5.Lcd.setTextColor(GREEN);
   M5.Lcd.print(value);
@@ -198,15 +200,15 @@ void drawValuesContent(Sensory &sensor) {
 
     SensorValues values = sensor.read();
     String plantName = selectedPlant->getName();
-    drawValueEntry(10,60,"Temperatur: ",values.currentTemprature," C");
-    drawValueEntry(10,90, "Feuchtigkeit: ",values.currentHumidity," %");
-    drawValueEntry(10,120,"Licht: ",values.currentLightCondition,"");
+    drawValueEntry(10,60,"Temperatur: ",values.currentTemprature," C",false);
+    drawValueEntry(10,90, "Feuchtigkeit: ",values.currentHumidity," %",false);
+    drawValueEntry(10,120,"Licht: ",values.currentLightCondition,"",false);
 
     //Ideal Values 
     //Temperatur
-    drawValueEntry(150,60,plantName+"->",selectedPlant->idealTemperature," C");
-    drawValueEntry(150,90,plantName+"->",selectedPlant->idealHumidity," %");
-    drawValueEntry(150,120,plantName+"->",selectedPlant->idealLight,"");
+    drawValueEntry(150,60,plantName+"->",selectedPlant->idealTemperature," C",false);
+    drawValueEntry(150,90,plantName+"->",selectedPlant->idealHumidity," %",false);
+    drawValueEntry(150,120,plantName+"->",selectedPlant->idealLight,"",false);
     }
     //TODO: FRAME -> Licht / Statstik 
 
@@ -256,7 +258,10 @@ void drawValuesContent(Sensory &sensor) {
       break;
       case SETTINGS: {
         unsigned long currentMillis = millis();
-        if (currentMillis - previousMillis >= UPDATE_INTERVAL) {
+        if (M5.BtnB.wasPressed()) {
+          selectedSettingsOption = (selectedSettingsOption + 1) % 3;
+        }
+        if (currentMillis - previousMillis >= 500) {
           previousMillis = currentMillis;
           drawCurrentFrameContent(sensor,network);
         }
