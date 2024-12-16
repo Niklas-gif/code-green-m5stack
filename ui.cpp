@@ -10,7 +10,8 @@
 #define GREEN 0x0ca6
 
 extern Plant plants[];
-extern Plant *selectedPlant; 
+extern Plant *selectedPlant;
+extern bool algorithmIsRunning;
 
 Screen frames[] = {SETTINGS,PUMP,PLANT,VALUES};
 int currentFrame = 0; 
@@ -100,11 +101,17 @@ void drawCurrentFrameContent(Sensory &sensor,Network &network) {
 
 void drawSettingsContent(Network &network,Sensory &sensor) {
   SettingsOption so = (SettingsOption) selectedSettingsOption;
-  drawValueEntry(115,60,"-- Settings --","","",false);
-  drawValueEntry(10,90,"Network state: ",wifiStatus(network),"",so == NETWORK ? true : false);
-  drawValueEntry(10,120,"Algorithmen state: ","","",so == AUTO ? true : false);
-  drawValueEntry(10,150,"Waterlevel LED state:",sensor.waterLevelLEDState() ? " ON" : " OFF","",so == WATERLEVEL_LED ? true : false);
-
+  drawValueEntry(115,60,"-- Settings --", "", "", false);
+  drawValueEntry(10,90,"Network state: ", wifiStatus(network), "", so == NETWORK ? true : false);
+  drawValueEntry(10,120,"Auto plant watering: ", algorithmIsRunning ? " ON" : " OFF", "", so == AUTO ? true : false);
+  drawValueEntry(10,150,"Waterlevel LED:", sensor.waterLevelLEDState() ? " ON" : " OFF", "", so == WATERLEVEL_LED ? true : false);
+  M5.Lcd.setTextColor(GRAY);
+  M5.Lcd.setCursor(185, 90);
+  M5.Lcd.print("To change settings");
+  M5.Lcd.setCursor(185, 105);
+  M5.Lcd.print("hold the select button");
+  M5.Lcd.setCursor(185, 120);
+  M5.Lcd.print("for 1 second.");
 }
 
 //FRAME: PFLANZEN
@@ -187,7 +194,7 @@ void drawPumpContent(Sensory &sensor) {
 template <typename T>
 void drawValueEntry(int x,int y,String desc,T value,String type,bool isSelected) {
   M5.Lcd.setCursor(x, y);
-  M5.Lcd.setTextColor(isSelected ? GREEN : WHITE);
+  M5.Lcd.setTextColor(isSelected ? ORANGE : WHITE);
   M5.Lcd.print(desc);
   M5.Lcd.setTextColor(GREEN);
   M5.Lcd.print(value);
@@ -210,11 +217,6 @@ void drawValuesContent(Sensory &sensor) {
     drawValueEntry(150,90,plantName+"->",selectedPlant->idealHumidity," %",false);
     drawValueEntry(150,120,plantName+"->",selectedPlant->idealLight,"",false);
     }
-    //TODO: FRAME -> Licht / Statstik 
-
-
-
-    //
 
     void updateUI(Sensory &sensor,Network &network) {
 
@@ -264,8 +266,8 @@ void drawValuesContent(Sensory &sensor) {
         if (!actionTriggered) {
             actionTriggered = true;
             switch ((SettingsOption)selectedSettingsOption) {
-                case NETWORK: { break; }
-                case AUTO: { break; }
+                case NETWORK: {network.send(sensor, 0); break; }
+                case AUTO: { algorithmIsRunning = !algorithmIsRunning; break; }
                 case WATERLEVEL_LED: { sensor.toggleWaterLevelLED(); break; }
             }
         }
