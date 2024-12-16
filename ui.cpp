@@ -258,9 +258,21 @@ void drawValuesContent(Sensory &sensor) {
       break;
       case SETTINGS: {
         unsigned long currentMillis = millis();
-        if (M5.BtnB.wasPressed()) {
-          selectedSettingsOption = (selectedSettingsOption + 1) % 3;
+        static bool actionTriggered = false;
+
+    if (M5.BtnB.pressedFor(1000)) {
+        if (!actionTriggered) {
+            actionTriggered = true;
+            switch ((SettingsOption)selectedSettingsOption) {
+                case NETWORK: { break; }
+                case AUTO: { break; }
+                case WATERLEVEL_LED: { sensor.toggleWaterLevelLED(); break; }
+            }
         }
+    } else if (M5.BtnB.wasReleased()) {
+        actionTriggered = false;
+        selectedSettingsOption = (selectedSettingsOption + 1) % 3;
+    }
         if (currentMillis - previousMillis >= 500) {
           previousMillis = currentMillis;
           drawCurrentFrameContent(sensor,network);
