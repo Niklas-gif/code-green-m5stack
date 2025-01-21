@@ -1,5 +1,14 @@
 # code-green-m5stack
 
+### Dependencies
+
+| Libary | Use case |
+| ------ | -------- |
+| Digital_Light_TSL2561 | Light sensor|
+| Adafruit_GFX | UI |
+| Wifi | Networking |
+| HTTPClient | Networking |
+
 ## How to use
 
 ### Inital setup
