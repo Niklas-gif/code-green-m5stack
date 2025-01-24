@@ -210,6 +210,7 @@ void drawValuesContent(Sensory &sensor) {
     drawValueEntry(10,60,"Temperatur: ",values.currentTemprature," C",false);
     drawValueEntry(10,90, "Feuchtigkeit: ",values.currentHumidity," %",false);
     drawValueEntry(10,120,"Licht: ",values.currentLightCondition,"",false);
+    drawValueEntry(10,150,"Bodenfeuchtigkeit: ",values.rawADC,"",false);
 
     //Ideal Values 
     //Temperatur

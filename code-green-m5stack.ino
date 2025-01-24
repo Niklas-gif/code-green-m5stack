@@ -41,7 +41,7 @@ void sendData(Sensory &sensory) {
   currentNetworkTime = millis();
   if(currentNetworkTime - previousNetworkTime >= SEND_TRIGGER_TIME) {
     previousNetworkTime = currentNetworkTime;
-    network.send(sensory,500);
+    network.send(sensory,0);
   }
 }
 
